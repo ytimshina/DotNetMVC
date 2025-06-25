@@ -1,0 +1,502 @@
+@model AuthApp.Models.CalculationHistory
+@using System.Text.Json
+
+@{
+    var inputs = JsonSerializer.Deserialize<Dictionary<string, JsonElement>>(Model.InputData);
+    var results = JsonSerializer.Deserialize<Dictionary<string, JsonElement>>(Model.ResultData);
+    
+    string GetValue(Dictionary<string, JsonElement> dict, string key, string defaultValue = "--") {
+        if (dict != null && dict.ContainsKey(key)) {
+            return dict[key].ToString();
+        }
+        return defaultValue;
+    }
+}
+
+<style>
+    .card {
+        background-color: white;
+        border-radius: 0.75rem;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        transition: all 0.3s ease;
+        border: 1px solid rgba(226, 232, 240, 0.8);
+    }
+    
+    .card:hover {
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
+    }
+    
+    .table-header {
+        @@apply font-semibold text-gray-700 bg-gray-50 p-4 text-left;
+        vertical-align: middle;
+    }
+    
+    .table-data {
+        @@apply p-4 border border-gray-200;
+        vertical-align: middle;
+    }
+    
+    .section-title {
+        @@apply text-lg font-semibold mb-4 text-blue-800 border-b pb-2 border-gray-200;
+        letter-spacing: -0.01em;
+    }
+    
+    /* Animations */
+    .slide-in {
+        animation: slideIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+    @@keyframes slideIn {
+        from {
+            transform: translateY(40px);
+            opacity: 0;
+        }
+        to {
+            transform: translateY(0);
+            opacity: 1;
+        }
+    }
+
+    /* Custom gradients for tabs */
+    .cooling-header {
+        background: linear-gradient(to right, #e0f2fe, #bae6fd);
+        border-radius: 6px 6px 0 0;
+    }
+    
+    .heating-header {
+        background: linear-gradient(to right, #fee2e2, #fecaca);
+        border-radius: 6px 6px 0 0;
+    }
+</style>
+
+<div class="slide-in">
+    <!-- Detailed Header -->
+    <div class="mb-6 p-4 bg-blue-50 rounded-lg border border-blue-100">
+        <div class="flex justify-between items-center">
+            <div>
+                <h2 class="text-xl font-bold text-blue-900">@Model.Description</h2>
+                <p class="text-gray-600">Calculation performed on: @Model.CalculationDate.ToString("MMMM dd, yyyy HH:mm")</p>
+            </div>
+            <a href="/Home/Welcome" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 shadow-sm">
+                New Calculation
+            </a>
+        </div>
+    </div>
+
+    <!-- Main Content - Mirroring the Welcome page structure -->
+    <div class="flex flex-wrap -mx-4">
+        <!-- Left Section - 55% width on large screens -->
+        <div class="w-full lg:w-3/5 px-4 mb-8">
+            <!-- ERV Wheel Inputs -->
+            <div class="card p-6 mb-8">
+                <h2 class="section-title flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-blue-600" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M11.49 3.17c-.38-1.56-2.6-1.56-2.98 0a1.532 1.532 0 01-2.286.948c-1.372-.836-2.942.734-2.106 2.106.54.886.061 2.042-.947 2.287-1.561.379-1.561 2.6 0 2.978a1.532 1.532 0 01.947 2.287c-.836 1.372.734 2.942 2.106 2.106a1.532 1.532 0 012.287.947c.379 1.561 2.6 1.561 2.978 0a1.533 1.533 0 012.287-.947c1.372.836 2.942-.734 2.106-2.106a1.533 1.533 0 01.947-2.287c1.561-.379 1.561-2.6 0-2.978a1.532 1.532 0 01-.947-2.287c.836-1.372-.734-2.942-2.106-2.106a1.532 1.532 0 01-2.287-.947zM10 13a3 3 0 100-6 3 3 0 000 6z" clip-rule="evenodd" />
+                    </svg>
+                    ERV Wheel Inputs
+                </h2>
+                <table class="w-full border-collapse mb-4 border rounded-lg overflow-hidden table-fixed">
+                    <thead>
+                        <tr>
+                            <th class="table-header rounded-tl-lg bg-gray-100 font-medium w-1/3">Parameters</th>
+                            <th class="table-header text-center cooling-header font-medium w-1/3">Cooling</th>
+                            <th class="table-header text-center rounded-tr-lg heating-header font-medium w-1/3">Heating</th>
+                        </tr>
+                    </thead>
+                    <tbody class="w-full">
+                        <tr class="hover:bg-gray-50">
+                            <td class="table-data font-medium">Outdoor Air Temperature (O.A. dry bulb)</td>
+                            <td class="table-data text-center">@GetValue(inputs, "C7")°F</td>
+                            <td class="table-data text-center">@GetValue(inputs, "D7")°F</td>
+                        </tr>
+                        <tr class="hover:bg-gray-50">
+                            <td class="table-data font-medium">Outdoor Air Temperature (O.A. wet bulb)</td>
+                            <td class="table-data text-center">@GetValue(inputs, "C8")°F</td>
+                            <td class="table-data text-center">@GetValue(inputs, "D8")°F</td>
+                        </tr>
+                        <tr class="hover:bg-gray-50">
+                            <td class="table-data font-medium">Return Air Temperature (R.A. dry bulb)</td>
+                            <td class="table-data text-center">@GetValue(inputs, "C9")°F</td>
+                            <td class="table-data text-center">@GetValue(inputs, "D9")°F</td>
+                        </tr>
+                        <tr class="hover:bg-gray-50">
+                            <td class="table-data font-medium">Return Air Temperature (R.A. wet bulb)</td>
+                            <td class="table-data text-center">@GetValue(inputs, "C10")°F</td>
+                            <td class="table-data text-center">@GetValue(inputs, "D10")°F</td>
+                        </tr>
+                        <tr class="bg-gray-50">
+                            <td class="table-data font-medium">OA Grains (calculated)</td>
+                            <td class="table-data text-center font-mono bg-blue-50">@GetValue(results, "C11")</td>
+                            <td class="table-data text-center font-mono bg-red-50">@GetValue(results, "D11")</td>
+                        </tr>
+                        <tr class="bg-gray-50">
+                            <td class="table-data font-medium">RA Grains (calculated)</td>
+                            <td class="table-data text-center font-mono bg-blue-50">@GetValue(results, "C12")</td>
+                            <td class="table-data text-center font-mono bg-red-50">@GetValue(results, "D12")</td>
+                        </tr>
+                        <tr class="hover:bg-gray-50">
+                            <td class="table-data font-medium">Nearest Location (elevation)</td>
+                            <td class="table-data text-center">@GetValue(inputs, "C14")</td>
+                            <td class="table-data text-center font-mono bg-gray-50">@GetValue(results, "D14")</td>
+                        </tr>
+                        <tr class="hover:bg-gray-50">
+                            <td class="table-data font-medium">Supply Air CFM</td>
+                            <td class="table-data text-center">@GetValue(inputs, "C15")</td>
+                            <td class="table-data"></td>
+                        </tr>
+                        <tr class="hover:bg-gray-50">
+                            <td class="table-data font-medium">Outdoor Air CFM</td>
+                            <td class="table-data text-center">@GetValue(inputs, "C16")</td>
+                            <td class="table-data"></td>
+                        </tr>
+                        <tr class="hover:bg-gray-50">
+                            <td class="table-data font-medium">Exhaust Return Air CFM</td>
+                            <td class="table-data text-center">@GetValue(inputs, "C17")</td>
+                            <td class="table-data"></td>
+                        </tr>
+                        <tr class="bg-gray-50">
+                            <td class="table-data font-medium">Mixed Return Air CFM</td>
+                            <td class="table-data text-center font-mono bg-blue-50">@GetValue(results, "C18")</td>
+                            <td class="table-data"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <!-- Unit Selections -->
+            <div class="card p-6 mb-8">
+                <h2 class="section-title flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-blue-600" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M3 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd" />
+                    </svg>
+                    Unit Selections
+                </h2>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">ERV Wheel Type</label>
+                        <div class="p-3 bg-gray-50 rounded-md border border-gray-200">
+                            @{
+                                var wheelType = GetValue(inputs, "C21");
+                                var wheelTypeText = wheelType switch {
+                                    "1" => "Aluminum",
+                                    "2" => "MS Coated",
+                                    "3" => "Polymer",
+                                    _ => wheelType
+                                };
+                            }
+                            @wheelTypeText
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">ERV Model Selection</label>
+                        <div class="p-3 bg-gray-50 rounded-md border border-gray-200">
+                            @{
+                                var modelSelection = GetValue(inputs, "C22");
+                                var modelText = modelSelection switch {
+                                    "1" => "ERC",
+                                    "2" => "HRV",
+                                    "3" => "ERV",
+                                    _ => modelSelection
+                                };
+                            }
+                            @modelText
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">ERV Size Selection</label>
+                        <div class="p-3 bg-gray-50 rounded-md border border-gray-200">
+                            @{
+                                var sizeSelection = GetValue(inputs, "C23");
+                                var sizeText = sizeSelection switch {
+                                    "1" => "Small (10-20)",
+                                    "2" => "Medium (30-50)",
+                                    "3" => "Large (60-100)",
+                                    _ => sizeSelection
+                                };
+                            }
+                            @sizeText
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Filter Type</label>
+                        <div class="p-3 bg-gray-50 rounded-md border border-gray-200">
+                            @{
+                                var filterType = GetValue(inputs, "C24");
+                                var filterText = filterType switch {
+                                    "1" => "MERV 8",
+                                    "2" => "MERV 13",
+                                    "3" => "HEPA",
+                                    _ => filterType
+                                };
+                            }
+                            @filterText
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 w-full">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Trane Original Unit Tons</label>
+                        <div class="p-3 bg-gray-50 rounded-md border border-gray-200">
+                            @{
+                                var tons = GetValue(inputs, "C26");
+                                var tonsText = tons switch {
+                                    "3" => "3 Tons",
+                                    "5" => "5 Tons",
+                                    "10" => "10 Tons",
+                                    _ => tons
+                                };
+                            }
+                            @tonsText
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Tonnage with ERV</label>
+                        <div class="p-3 bg-gray-50 rounded-md border border-gray-200 text-blue-800 font-medium">
+                            @GetValue(results, "D26")
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Pre-Heater & Post Preheat Data -->
+            <div class="card p-6">
+                <h2 class="section-title flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-blue-600" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z" clip-rule="evenodd" />
+                    </svg>
+                    Pre-Heater &amp; Post Preheat Data
+                </h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 w-full">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Pre-Heater Size:</label>
+                        <div class="p-3 bg-gray-50 rounded-md border border-gray-200">
+                            @GetValue(inputs, "H26")
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Post Preheat Air Temp</label>
+                        <div class="p-3 bg-gray-50 rounded-md border border-gray-200 text-blue-800 font-medium mb-3">
+                            @GetValue(results, "I26")
+                        </div>
+                        <div class="p-3 bg-gray-50 rounded-md border border-gray-200 text-red-800 font-medium">
+                            @GetValue(results, "I27")
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End of Left Section -->
+
+        <!-- Right Section - 40% width on large screens -->
+        <div class="w-full lg:w-2/5 px-4">
+            <!-- Location Info -->
+            <div class="card p-6 mb-8">
+                <h2 class="section-title flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-blue-600" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd" />
+                    </svg>
+                    Location Information
+                </h2>
+                <table class="w-full border-collapse mb-2 border rounded-lg overflow-hidden">
+                    <thead>
+                        <tr>
+                            <th class="table-header text-left rounded-tl-lg bg-gray-100"></th>
+                            <th class="table-header text-center bg-gray-100">City</th>
+                            <th class="table-header text-center rounded-tr-lg bg-gray-100">Altitude (ft.)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="hover:bg-gray-50">
+                            <td class="table-data font-medium">Nearest Location (elevation)</td>
+                            <td class="table-data text-center">@GetValue(inputs, "AE5")</td>
+                            <td class="table-data text-center">@GetValue(inputs, "AF5")</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Fan Data -->
+            <div class="card p-6 mb-8">
+                <h2 class="section-title flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-blue-600" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M11.49 3.17c-.38-1.56-2.6-1.56-2.98 0a1.532 1.532 0 01-2.286.948c-1.372-.836-2.942.734-2.106 2.106.54.886.061 2.042-.947 2.287-1.561.379-1.561 2.6 0 2.978a1.532 1.532 0 01.947 2.287c-.836 1.372.734 2.942 2.106 2.106a1.532 1.532 0 012.287.947c.379 1.561 2.6 1.561 2.978 0a1.533 1.533 0 012.287-.947c1.372.836 2.942-.734 2.106-2.106a1.533 1.533 0 01.947-2.287c1.561-.379 1.561-2.6 0-2.978a1.532 1.532 0 01-.947-2.287c.836-1.372-.734-2.942-2.106-2.106a1.532 1.532 0 01-2.287-.947zM10 13a3 3 0 100-6 3 3 0 000 6z" clip-rule="evenodd" />
+                    </svg>
+                    Fan Data
+                </h2>
+                <table class="w-full border-collapse mb-2 border rounded-lg overflow-hidden">
+                    <tbody>
+                        <tr class="hover:bg-gray-50">
+                            <td class="table-data font-medium bg-gray-50">Fan Type</td>
+                            <td class="table-data font-mono text-blue-800">@GetValue(results, "H6")</td>
+                        </tr>
+                        <tr class="hover:bg-gray-50">
+                            <td class="table-data font-medium bg-gray-50">Motor Size (HP)</td>
+                            <td class="table-data font-mono text-blue-800">@GetValue(results, "H7")</td>
+                        </tr>
+                        <tr class="hover:bg-gray-50">
+                            <td class="table-data font-medium bg-gray-50">Fan RPM</td>
+                            <td class="table-data font-mono text-blue-800">@GetValue(results, "H8")</td>
+                        </tr>
+                        <tr class="hover:bg-gray-50">
+                            <td class="table-data font-medium bg-gray-50">Fan/Motor BHP</td>
+                            <td class="table-data font-mono text-blue-800">@GetValue(results, "H9")</td>
+                        </tr>
+                        <tr class="hover:bg-gray-50">
+                            <td class="table-data font-medium bg-gray-50">Total Static Pressure</td>
+                            <td class="table-data font-mono text-blue-800">@GetValue(results, "H10")</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Motor, Belt and Pullies -->
+            <div class="card p-6 mb-8">
+                <h2 class="section-title flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-blue-600" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M12.316 3.051a1 1 0 01.633 1.265l-4 12a1 1 0 11-1.898-.632l4-12a1 1 0 011.265-.633zM5.707 6.293a1 1 0 010 1.414L3.414 10l2.293 2.293a1 1 0 11-1.414 1.414l-3-3a1 1 0 010-1.414l3-3a1 1 0 011.414 0zm8.586 0a1 1 0 011.414 0l3 3a1 1 0 010 1.414l-3 3a1 1 0 11-1.414-1.414L16.586 10l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+                    </svg>
+                    Motor, Belt and Pullies
+                </h2>
+                
+                <div class="grid grid-cols-1 gap-6 mb-6">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Motor with grounding ring?</label>
+                        <div class="p-3 bg-gray-50 rounded-md border border-gray-200">
+                            @(GetValue(inputs, "H13") == "1" ? "Yes" : "No")
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">VAV system with VDF?</label>
+                        <div class="p-3 bg-gray-50 rounded-md border border-gray-200">
+                            @(GetValue(inputs, "H14") == "1" ? "Yes" : "No")
+                        </div>
+                    </div>
+                </div>
+                
+                <table class="w-full border-collapse border rounded-lg overflow-hidden">
+                    <thead>
+                        <tr>
+                            <th class="table-header text-left rounded-tl-lg bg-gray-100">Part</th>
+                            <th class="table-header text-center bg-gray-100">Value</th>
+                            <th class="table-header text-center rounded-tr-lg bg-gray-100">PN</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="hover:bg-gray-50">
+                            <td class="table-data font-medium bg-gray-50">Motor:</td>
+                            <td class="table-data font-mono text-center text-blue-800">@GetValue(results, "G16")</td>
+                            <td class="table-data font-mono text-center text-blue-800">@GetValue(results, "H16")</td>
+                        </tr>
+                        <tr class="hover:bg-gray-50">
+                            <td class="table-data font-medium bg-gray-50">Driver:</td>
+                            <td class="table-data font-mono text-center text-blue-800">@GetValue(results, "G17")</td>
+                            <td class="table-data font-mono text-center text-blue-800">@GetValue(results, "H17")</td>
+                        </tr>
+                        <tr class="hover:bg-gray-50">
+                            <td class="table-data font-medium bg-gray-50">Driven:</td>
+                            <td class="table-data font-mono text-center text-blue-800">@GetValue(results, "G18")</td>
+                            <td class="table-data font-mono text-center text-blue-800">@GetValue(results, "H18")</td>
+                        </tr>
+                        <tr class="hover:bg-gray-50">
+                            <td class="table-data font-medium bg-gray-50">Belt:</td>
+                            <td class="table-data font-mono text-center text-blue-800">@GetValue(results, "G19")</td>
+                            <td class="table-data font-mono text-center text-blue-800">@GetValue(results, "H19")</td>
+                        </tr>
+                        <tr class="hover:bg-gray-50">
+                            <td class="table-data font-medium bg-gray-50">RPM:</td>
+                            <td class="table-data font-mono text-center text-blue-800" colspan="2">@GetValue(results, "H20")</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <!-- End of Right Section -->
+    </div>
+    
+    <!-- Performance Results Widget -->
+    <div class="card p-8 mb-6 shadow-lg w-full">
+        <div class="flex justify-between items-center mb-6 border-b pb-4 border-gray-200">
+            <h2 class="text-2xl font-bold text-blue-900">Performance Results</h2>
+        </div>
+        
+        <!-- Performance Tables -->
+        <div class="overflow-x-auto rounded-lg shadow-sm border border-gray-200 w-full">
+            <table class="w-full border-collapse" style="min-width: 1200px;">
+                <thead>
+                    <tr class="bg-gray-50">
+                        <th class="border border-gray-300 p-4 bg-white text-left font-semibold text-gray-800 rounded-tl-lg">
+                            Aluminum ERC Series (Airxchange)
+                        </th>
+                        <th class="border border-gray-300 p-4 bg-white text-center font-semibold text-gray-800">
+                            Unit<br>Effectiveness
+                        </th>
+                        <th class="border border-gray-300 p-4 text-center font-semibold text-gray-800 bg-gray-50">
+                            ERV Air<br>Pressure Loss
+                        </th>
+                        <th class="border border-gray-300 p-4 text-center font-semibold text-gray-800 bg-gray-50">
+                            Velocity
+                        </th>
+                        <th class="border border-gray-300 p-4 bg-white text-center font-semibold text-gray-800">
+                            ERV Dry<br>(bulb °F)
+                        </th>
+                        <th class="border border-gray-300 p-4 bg-white text-center font-semibold text-gray-800">
+                            ERV Wet<br>(bulb °F)
+                        </th>
+                        <th class="border border-gray-300 p-4 text-center font-semibold text-gray-800 bg-gray-50">
+                            M.S.A. Dry<br>Bulb (°F)
+                        </th>
+                        <th class="border border-gray-300 p-4 text-center font-semibold text-gray-800 bg-gray-50">
+                            M.S.A. Wet<br>Bulb (°F)
+                        </th>
+                        <th class="border border-gray-300 p-4 bg-white text-center font-semibold text-gray-800">
+                            ERV effective<br>Cooling (Tons)
+                        </th>
+                        <th class="border border-gray-300 p-4 text-center font-semibold text-gray-800 rounded-tr-lg bg-gray-50">
+                            Cooling<br>(Sensible MBH)
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Summer Performance -->
+                    <tr>
+                        <td class="border border-gray-300 p-4 font-medium cooling-header" colspan="10">
+                            Summer Performance (Cooling Data)
+                        </td>
+                    </tr>
+                    <tr class="hover:bg-blue-50 transition-colors duration-150">
+                        <td class="border p-4 font-medium bg-gray-50">@GetValue(results, "B33")</td>
+                        <td class="border p-4 text-center font-mono">@GetValue(results, "C33")</td>
+                        <td class="border p-4 text-center font-mono bg-gray-50">@GetValue(results, "D33")</td>
+                        <td class="border p-4 text-center font-mono bg-gray-50">@GetValue(results, "E33")</td>
+                        <td class="border p-4 text-center font-mono">@GetValue(results, "F33")</td>
+                        <td class="border p-4 text-center font-mono">@GetValue(results, "G33")</td>
+                        <td class="border p-4 text-center font-mono bg-gray-50">@GetValue(results, "H33")</td>
+                        <td class="border p-4 text-center font-mono bg-gray-50">@GetValue(results, "I33")</td>
+                        <td class="border p-4 text-center font-mono">@GetValue(results, "J33")</td>
+                        <td class="border p-4 text-center font-mono bg-gray-50">@GetValue(results, "K33")</td>
+                    </tr>
+
+                    <!-- Winter Performance -->
+                    <tr>
+                        <td class="border border-gray-300 p-4 font-medium heating-header" colspan="10">
+                            Winter Performance (Heating Data)
+                        </td>
+                    </tr>
+                    <tr class="hover:bg-red-50 transition-colors duration-150">
+                        <td class="border p-4 font-medium bg-gray-50">@GetValue(results, "B35")</td>
+                        <td class="border p-4 text-center font-mono">@GetValue(results, "C35")</td>
+                        <td class="border p-4 text-center font-mono bg-gray-50">@GetValue(results, "D35")</td>
+                        <td class="border p-4 text-center font-mono bg-gray-50">@GetValue(results, "E35")</td>
+                        <td class="border p-4 text-center font-mono">@GetValue(results, "F35")</td>
+                        <td class="border p-4 text-center font-mono">@GetValue(results, "G35")</td>
+                        <td class="border p-4 text-center font-mono bg-gray-50">@GetValue(results, "H35")</td>
+                        <td class="border p-4 text-center font-mono bg-gray-50">@GetValue(results, "I35")</td>
+                        <td class="border p-4 text-center font-mono">@GetValue(results, "J35")</td>
+                        <td class="border p-4 text-center font-mono bg-gray-50 rounded-br-lg">@GetValue(results, "K35")</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
