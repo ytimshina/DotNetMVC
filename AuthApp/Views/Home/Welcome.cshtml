@@ -13,211 +13,238 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         body {
-          font-family: 'Inter', sans-serif;
-          background-color: #f0f4f8;
-          color: #334155;
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f4f8;
+            color: #334155;
         }
 
         .card {
-          background-color: white;
-          border-radius: 0.75rem;
-          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-          transition: all 0.3s ease;
-          border: 1px solid rgba(226, 232, 240, 0.8);
+            background-color: white;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+            border: 1px solid rgba(226, 232, 240, 0.8);
         }
 
-        .card:hover {
-          box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
-        }
+            .card:hover {
+                box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
+            }
 
         /* Updated form-input class for better scaling */
         .form-input {
-          @@apply p-3 border border-gray-300 rounded-md text-right transition;
-          line-height: 1.6;
-          width: 100%;
-          box-sizing: border-box;
-          box-shadow: 0 1px 3px rgba(0,0,0,0.05) inset;
+            @@apply p-3 border border-gray-300 rounded-md text-right transition;
+            line-height: 1.6;
+            width: 100%;
+            box-sizing: border-box;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05) inset;
         }
 
-        .form-input:focus {
-          @@apply outline-none ring-2 ring-blue-400 border-blue-500;
-          box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
-        }
+            .form-input:focus {
+                @@apply outline-none ring-2 ring-blue-400 border-blue-500;
+                box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
+            }
 
         /* Updated form-select class for better scaling */
         .form-select {
-          @@apply p-3 border border-gray-300 rounded-md transition;
-          background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
-          background-position: right 0.75rem center;
-          background-repeat: no-repeat;
-          background-size: 1.5em 1.5em;
-          padding-right: 2.5rem;
-          -webkit-appearance: none;
-          -moz-appearance: none;
-          appearance: none;
-          line-height: 1.6;
-          width: 100%;
-          box-sizing: border-box;
-          box-shadow: 0 1px 3px rgba(0,0,0,0.05) inset;
+            @@apply p-3 border border-gray-300 rounded-md transition;
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+            background-position: right 0.75rem center;
+            background-repeat: no-repeat;
+            background-size: 1.5em 1.5em;
+            padding-right: 2.5rem;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            line-height: 1.6;
+            width: 100%;
+            box-sizing: border-box;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05) inset;
         }
 
-        .form-select:focus {
-          @@apply outline-none ring-2 ring-blue-400 border-blue-500;
-          box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
-        }
+            .form-select:focus {
+                @@apply outline-none ring-2 ring-blue-400 border-blue-500;
+                box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
+            }
 
         /* Remove fixed width for table cells */
         .table-header {
-          @@apply font-semibold text-gray-700 bg-gray-50 p-4 text-left;
-          vertical-align: middle;
+            @@apply font-semibold text-gray-700 bg-gray-50 p-4 text-left;
+            vertical-align: middle;
         }
 
         .table-data {
-          @@apply p-4 border border-gray-200;
-          vertical-align: middle;
+            @@apply p-4 border border-gray-200;
+            vertical-align: middle;
         }
 
         /* Updated location table for flexible widths */
         .location-table {
-          table-layout: auto;
-          width: 100%;
+            table-layout: auto;
+            width: 100%;
         }
 
-        /* Remove fixed widths from table cells */
-        .location-table th,
-        .location-table td {
-          width: auto;
-        }
+            /* Remove fixed widths from table cells */
+            .location-table th,
+            .location-table td {
+                width: auto;
+            }
 
         /* Updated table-data-input for better responsiveness */
         .table-data-input {
-          padding: 0.5rem !important;
-          min-width: 4rem;
+            padding: 0.5rem !important;
+            min-width: 4rem;
         }
 
-        /* Ensure inputs inside table cells scale properly */
-        .table-data-input .form-input,
-        .table-data-input .form-select {
-          width: 100%;
-          min-width: 0;
-        }
+            /* Ensure inputs inside table cells scale properly */
+            .table-data-input .form-input,
+            .table-data-input .form-select {
+                width: 100%;
+                min-width: 0;
+            }
 
         .section-title {
-          @@apply text-lg font-semibold mb-4 text-blue-800 border-b pb-2 border-gray-200;
-          letter-spacing: -0.01em;
+            @@apply text-lg font-semibold mb-4 text-blue-800 border-b pb-2 border-gray-200;
+            letter-spacing: -0.01em;
         }
 
         .loading {
-          opacity: 0.6;
-          pointer-events: none;
+            opacity: 0.6;
+            pointer-events: none;
         }
 
         button {
-          transition: all 0.2s ease;
+            transition: all 0.2s ease;
         }
 
-        button:hover {
-          transform: translateY(-2px);
-        }
+            button:hover {
+                transform: translateY(-2px);
+            }
 
         .field-wrapper {
-          display: flex;
-          align-items: center;
-          width: 100%;
+            display: flex;
+            align-items: center;
+            width: 100%;
         }
 
         .field-unit {
-          @@apply text-xs text-gray-500 mb-1;
-          position: absolute;
-          top: 0;
-          left: 0.5rem;
+            @@apply text-xs text-gray-500 mb-1;
+            position: absolute;
+            top: 0;
+            left: 0.5rem;
         }
 
         .field-container {
-          position: relative;
-          width: 100%;
+            position: relative;
+            width: 100%;
         }
 
         td.align-middle {
-          vertical-align: middle;
+            vertical-align: middle;
         }
 
-        /* The rest of the existing CSS remains unchanged */
         /* Results widget animation */
         .slide-in {
-          animation: slideIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            animation: slideIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
+
         @@keyframes slideIn {
-          from {
-            transform: translateY(40px);
-            opacity: 0;
-          }
-          to {
-            transform: translateY(0);
-            opacity: 1;
-          }
+            from {
+                transform: translateY(40px);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
         }
 
         /* Custom gradients for tabs */
         .cooling-header {
-          background: linear-gradient(to right, #e0f2fe, #bae6fd);
-          border-radius: 6px 6px 0 0;
+            background: linear-gradient(to right, #e0f2fe, #bae6fd);
+            border-radius: 6px 6px 0 0;
         }
 
         .heating-header {
-          background: linear-gradient(to right, #fee2e2, #fecaca);
-          border-radius: 6px 6px 0 0;
+            background: linear-gradient(to right, #fee2e2, #fecaca);
+            border-radius: 6px 6px 0 0;
         }
 
         /* Refined shadows for summary cards */
         .summary-card {
-          box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
-          transition: all 0.3s ease;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+            transition: all 0.3s ease;
         }
 
-        .summary-card:hover {
-          box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
-          transform: translateY(-2px);
-        }
+            .summary-card:hover {
+                box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+                transform: translateY(-2px);
+            }
 
         /* Loading spinner */
         .animate-spin {
-          animation: spin 1s linear infinite;
+            animation: spin 1s linear infinite;
         }
 
         @@keyframes spin {
-          from {
-            transform: rotate(0deg);
-          }
-          to {
-            transform: rotate(360deg);
-          }
+            from {
+                transform: rotate(0deg);
+            }
+
+            to {
+                transform: rotate(360deg);
+            }
         }
 
         /* Media queries for better responsiveness */
         @@media (max-width: 640px) {
-          .table-data-input {
-            padding: 0.25rem !important;
-          }
+            .table-data-input {
+                padding: 0.25rem !important;
+            }
 
-          .form-input, .form-select {
-            padding: 0.5rem;
-            font-size: 0.875rem;
-          }
+            .form-input, .form-select {
+                padding: 0.5rem;
+                font-size: 0.875rem;
+            }
+        }
+
+        /* Module loading indicator */
+        .module-loading {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255, 255, 255, 0.9);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
         }
     </style>
 </head>
 <body class="bg-gradient-to-b from-gray-50 to-gray-100 min-h-screen">
+    <!-- Module Loading Overlay -->
+    <div id="moduleLoading" class="module-loading">
+        <div class="text-center">
+            <svg class="animate-spin h-12 w-12 text-blue-600 mx-auto mb-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+            </svg>
+            <p class="text-lg text-gray-700">Loading ERV Calculator...</p>
+        </div>
+    </div>
+
     <!-- Page container with a max width and auto margins -->
     <div class="p-6 w-full mx-auto">
 
         <!-- Page Header -->
         <div class="mb-10 text-center">
-            <h1 class="text-4xl font-bold text-blue-900 mb-3">ERV Wheel Calculator</h1>
-            <p class="text-gray-600 text-lg max-w-2xl mx-auto">Enter system parameters to calculate energy recovery ventilation performance</p>
-            <div class="mt-4">
+
+            <h1 class="text-4xl font-bold text-blue-900 mb-3">
                 <a asp-controller="History" asp-action="Index" class="text-blue-600 hover:text-blue-800 font-medium">View Calculation History</a>
-            </div>
+            </h1>
+            <p class="text-gray-600 text-lg max-w-2xl mx-auto">Enter system parameters to calculate energy recovery ventilation performance</p>
         </div>
 
         <!-- Main Form -->
@@ -298,7 +325,10 @@
                                 <tr class="hover:bg-gray-50">
                                     <td class="table-data font-medium align-middle">Nearest Location (elevation)</td>
                                     <td class="table-data align-middle table-data-input">
-                                        <input class="form-input" type="text" name="nearestLocation" id="C14" placeholder="City name" />
+                                        <select class="form-select" name="nearestLocation" id="C14">
+                                            <option value="">Select City</option>
+                                            <!-- Options will be populated by JavaScript -->
+                                        </select>
                                     </td>
                                     <td class="table-data text-center font-mono bg-gray-50 align-middle" id="D14">--</td>
                                 </tr>
@@ -474,10 +504,13 @@
                                 <tr class="hover:bg-gray-50">
                                     <td class="table-data font-medium align-middle">Nearest Location (elevation)</td>
                                     <td class="table-data align-middle table-data-input">
-                                        <input class="form-input w-full" type="text" name="R1_nearestLocation" id="AE5" placeholder="City name" />
+                                        <select class="form-select w-full" name="R1_nearestLocation" id="AE5">
+                                            <option value="">Select City</option>
+                                            <!-- Options will be populated by JavaScript -->
+                                        </select>
                                     </td>
                                     <td class="table-data align-middle table-data-input">
-                                        <input class="form-input w-full" type="text" name="R2_altitude" id="AF5" placeholder="0" />
+                                        <input class="form-input w-full" type="text" name="R2_altitude" id="AF5" placeholder="0" readonly />
                                     </td>
                                 </tr>
                             </tbody>
@@ -589,6 +622,18 @@
                             Calculate Results
                         </button>
                     </div>
+
+                    <!-- Utility Buttons -->
+                    <div class="grid grid-cols-2 gap-4 mt-4">
+                        <button type="button" onclick="window.ERVCalculator.exportResults()"
+                                class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 text-sm transition-all duration-300">
+                            Export Results
+                        </button>
+                        <button type="button" onclick="window.ERVCalculator.importFromFile()"
+                                class="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500 text-sm transition-all duration-300">
+                            Import Data
+                        </button>
+                    </div>
                 </div>
                 <!-- End of Right Section -->
             </div>
@@ -608,7 +653,7 @@
                     </button>
                 </div>
 
-                <!-- Performance Tables (cards have been removed) -->
+                <!-- Performance Tables -->
                 <div class="overflow-x-auto rounded-lg shadow-sm border border-gray-200 w-full">
                     <table class="w-full border-collapse" style="min-width: 1200px;">
                         <thead>
@@ -728,7 +773,7 @@
                     <button type="button" id="closeSuccessBtn" class="px-4 py-2 bg-gray-200 text-gray-800 rounded hover:bg-gray-300">
                         Close
                     </button>
-                    <a href="/History/index" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
+                    <a href="/History" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
                         View History
                     </a>
                 </div>
@@ -736,253 +781,31 @@
         </div>
     </div>
 
-    <script>
-        const INPUT_FIELDS = [
-            'C7', 'C8', 'C9', 'C10',
-            'D7', 'D8', 'D9', 'D10',
-            'C13', 'C15', 'C16', 'C17',
-            'C21', 'C22', 'C23', 'C24', 'C25', 'C26', 'C27', 'C28',
-            'H13', 'H14', 'H26',
-            'AE5', 'AF5'
-        ];
+    <!-- ES6 Module Scripts -->
+    <script type="module" src="~/js/main.js"></script>
 
-        const OUTPUT_FIELDS = [
-            'C11', 'C12', 'D11', 'D12', 'C14', 'D14', 'C18', 'D20', 'D26', 'D27',
-            'H6', 'H7', 'H8', 'H9', 'H10',
-            'G16', 'G17', 'G18', 'G19', 'G20',
-            'H16', 'H17', 'H18', 'H19',
-            'I26', 'I27',
-            'B33', 'C33', 'D33', 'E33', 'F33', 'G33', 'H33', 'I33', 'J33', 'K33',
-            'B35', 'C35', 'D35', 'E35', 'F35', 'G35', 'H35', 'I35', 'J35', 'K35'
-        ];
+    <!-- Fallback for older browsers -->
+    <script nomodule>
+        document.getElementById('moduleLoading').innerHTML = `
+            <div class="text-center">
+                <div class="text-red-500 text-xl mb-4">⚠️</div>
+                <h3 class="text-lg font-medium text-gray-900 mb-2">Browser Not Supported</h3>
+                <p class="text-gray-600">This application requires a modern browser that supports ES6 modules.</p>
+                <p class="text-gray-600 mt-2">Please update your browser to continue.</p>
+            </div>
+        `;
+    </script>
 
-        function showLoading() {
-            document.getElementById('loadingOverlay').classList.remove('hidden');
-            document.getElementById('loadingOverlay').classList.add('flex');
-            document.querySelector('form').classList.add('loading');
-            const submitButton = document.querySelector('button[type="submit"]');
-            if (submitButton) {
-                submitButton.disabled = true;
-            }
-        }
-
-        function hideLoading() {
-            document.getElementById('loadingOverlay').classList.add('hidden');
-            document.getElementById('loadingOverlay').classList.remove('flex');
-            document.querySelector('form').classList.remove('loading');
-            const submitButton = document.querySelector('button[type="submit"]');
-            if (submitButton) {
-                submitButton.disabled = false;
-            }
-        }
-
-        function showSuccessModal() {
-            const modal = document.getElementById('successModal');
-            modal.classList.remove('hidden');
-            modal.classList.add('flex');
-        }
-
-        function hideSuccessModal() {
-            const modal = document.getElementById('successModal');
-            modal.classList.add('hidden');
-            modal.classList.remove('flex');
-        }
-
-        function collectInputValues() {
-            const inputs = {};
-            let hasChanges = false;
-
-            INPUT_FIELDS.forEach(id => {
-                const element = document.getElementById(id);
-                if (element) {
-                    // select elements (dropdowns)
-                    if (element.tagName === 'SELECT') {
-                        if (element.value !== '') {
-                            const value = !isNaN(element.value) ? Number(element.value) : element.value;
-                            inputs[id] = value;
-                            hasChanges = true;
-                        }
-                    }
-                    // regular inputs
-                    else if (element.value && element.value.trim() !== '') {
-                        if (element.type === 'number') {
-                            const value = Number(element.value);
-                            if (!isNaN(value)) {
-                                inputs[id] = value;
-                                hasChanges = true;
-                            }
-                        } else {
-                            inputs[id] = element.value.trim();
-                            hasChanges = true;
-                        }
-                    }
-                }
-            });
-
-            return { inputs, hasChanges };
-        }
-
-        async function calculateResults() {
-            const { inputs, hasChanges } = collectInputValues();
-
-            if (!hasChanges) {
-                console.log('No valid inputs to calculate');
-                return;
-            }
-
-            console.log('Calculating with inputs:', inputs);
-            showLoading();
-
-            try {
-                // TODO: Replace this with actual webapp calculation logic
-                // For now, simulate the calculation with sample results
-                const calculatedResults = {
-                    // Sample calculated values - replace with actual calculation logic
-                    'C11': '85.4', // OA Grains cooling
-                    'D11': '42.1', // OA Grains heating
-                    'C12': '62.8', // RA Grains cooling
-                    'D12': '28.9', // RA Grains heating
-                    'C18': '1500', // Mixed Return Air CFM
-                    'D26': '8.5', // Tonnage with ERV
-                    'D27': '11.2', // EER Value
-                    'H6': 'Centrifugal', // Fan Type
-                    'H7': '5.0', // Motor Size HP
-                    'H8': '1200', // Fan RPM
-                    'H9': '4.2', // Fan/Motor BHP
-                    'H10': '2.5', // Total Static Pressure
-                    'G16': '5HP TEFC', // Motor Value
-                    'H16': 'MOT-001', // Motor PN
-                    'B33': 'ERC-1000', // Model
-                    'C33': '75%', // Unit Effectiveness
-                    'D33': '0.8', // ERV Air Pressure Loss
-                    'E33': '450', // Velocity
-                    'F33': '78.5', // ERV Dry
-                    'G33': '65.2', // ERV Wet
-                    'H33': '76.8', // MSA Dry
-                    'I33': '64.1', // MSA Wet
-                    'J33': '3.2', // ERV effective Cooling
-                    'K33': '38.4', // Cooling Sensible MBH
-                    'B35': 'ERC-1000', // Model (heating)
-                    'C35': '78%', // Unit Effectiveness (heating)
-                    'D35': '0.9', // ERV Air Pressure Loss (heating)
-                    'E35': '450', // Velocity (heating)
-                    'F35': '45.2', // ERV Dry (heating)
-                    'G35': '42.8', // ERV Wet (heating)
-                    'H35': '68.5', // MSA Dry (heating)
-                    'I35': '65.2', // MSA Wet (heating)
-                    'J35': '2.8', // ERV effective Cooling (heating)
-                    'K35': '33.6'  // Cooling Sensible MBH (heating)
-                };
-
-                // Update the display with calculated results
-                Object.entries(calculatedResults).forEach(([cellId, value]) => {
-                    const element = document.getElementById(cellId);
-                    if (element) {
-                        console.log(`Updating ${cellId} with value:`, value);
-                        const numValue = parseFloat(value);
-                        if (!isNaN(numValue)) {
-                            element.textContent = numValue.toFixed(2);
-                        } else {
-                            element.textContent = value;
-                        }
-                    }
-                });
-
-                // Show results widget after calculation is complete
-                document.getElementById('resultsWidget').classList.remove('hidden');
-
-                // Scroll to results
-                document.getElementById('resultsWidget').scrollIntoView({ behavior: 'smooth' });
-
-            } catch (error) {
-                console.error('Calculation error:', error);
-                alert('Error performing calculations. Please check the console for details.');
-            } finally {
-                hideLoading();
-            }
-        }
-
-        // Document ready event handler
+    <!-- Hide loading overlay once modules are loaded -->
+    <script type="module">
+        // Hide the module loading overlay once the main script loads
         document.addEventListener('DOMContentLoaded', () => {
-            // Form submission
-            const form = document.querySelector('form');
-            form.addEventListener('submit', (e) => {
-                e.preventDefault();
-                calculateResults();
-            });
-
-            // Save Results button functionality
-            const saveResultsBtn = document.getElementById('saveResultsBtn');
-            saveResultsBtn.addEventListener('click', async () => {
-                // Get the inputs
-                const { inputs } = collectInputValues();
-
-                // Collect all output values
-                const results = {};
-                OUTPUT_FIELDS.forEach(id => {
-                    const element = document.getElementById(id);
-                    if (element) {
-                        results[id] = element.textContent;
-                    }
-                });
-
-                // Get description if provided
-                const descriptionInput = document.getElementById('calculation-description');
-                const description = descriptionInput.value.trim() || 'ERV Wheel Calculation';
-
-                showLoading();
-
-                try {
-                    const response = await fetch('/History/SaveCalculation', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]').value
-                        },
-                        body: JSON.stringify({
-                            inputs: inputs,
-                            results: results,
-                            description: description
-                        })
-                    });
-
-                    if (response.ok) {
-                        const data = await response.json();
-                        hideLoading();
-                        showSuccessModal();
-                    } else {
-                        hideLoading();
-                        alert('Error saving calculation. Please try again.');
-                    }
-                } catch (error) {
-                    console.error('Connection error:', error);
-                    hideLoading();
-                    alert('Failed to save calculation. Please check your connection.');
-                }
-            });
-
-            // Close success modal
-            const closeSuccessBtn = document.getElementById('closeSuccessBtn');
-            if (closeSuccessBtn) {
-                closeSuccessBtn.addEventListener('click', hideSuccessModal);
+            const loadingOverlay = document.getElementById('moduleLoading');
+            if (loadingOverlay) {
+                setTimeout(() => {
+                    loadingOverlay.style.display = 'none';
+                }, 100);
             }
-
-            // basic validation for number inputs
-            INPUT_FIELDS.forEach(id => {
-                const element = document.getElementById(id);
-                if (element && element.type === 'number') {
-                    element.addEventListener('input', () => {
-                        if (element.value !== '') {
-                            const num = parseFloat(element.value);
-                            if (isNaN(num)) {
-                                element.setCustomValidity('Please enter a valid number');
-                            } else {
-                                element.setCustomValidity('');
-                            }
-                        }
-                    });
-                }
-            });
         });
     </script>
 </body>
