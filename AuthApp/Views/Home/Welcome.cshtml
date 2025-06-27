@@ -32,7 +32,7 @@
 
         /* Updated form-input class for better scaling */
         .form-input {
-            @@apply p-3 border border-gray-300 rounded-md text-right transition;
+        @@apply p-3 border border-gray-300 rounded-md text-right transition;
             line-height: 1.6;
             width: 100%;
             box-sizing: border-box;
@@ -40,13 +40,13 @@
         }
 
             .form-input:focus {
-                @@apply outline-none ring-2 ring-blue-400 border-blue-500;
+        @@apply outline-none ring-2 ring-blue-400 border-blue-500;
                 box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
             }
 
         /* Updated form-select class for better scaling */
         .form-select {
-            @@apply p-3 border border-gray-300 rounded-md transition;
+        @@apply p-3 border border-gray-300 rounded-md transition;
             background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
             background-position: right 0.75rem center;
             background-repeat: no-repeat;
@@ -62,18 +62,18 @@
         }
 
             .form-select:focus {
-                @@apply outline-none ring-2 ring-blue-400 border-blue-500;
+        @@apply outline-none ring-2 ring-blue-400 border-blue-500;
                 box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
             }
 
         /* Remove fixed width for table cells */
         .table-header {
-            @@apply font-semibold text-gray-700 bg-gray-50 p-4 text-left;
+        @@apply font-semibold text-gray-700 bg-gray-50 p-4 text-left;
             vertical-align: middle;
         }
 
         .table-data {
-            @@apply p-4 border border-gray-200;
+        @@apply p-4 border border-gray-200;
             vertical-align: middle;
         }
 
@@ -103,7 +103,7 @@
             }
 
         .section-title {
-            @@apply text-lg font-semibold mb-4 text-blue-800 border-b pb-2 border-gray-200;
+        @@apply text-lg font-semibold mb-4 text-blue-800 border-b pb-2 border-gray-200;
             letter-spacing: -0.01em;
         }
 
@@ -122,90 +122,35 @@
 
         .field-wrapper {
             display: flex;
-            align-items: center;
-            width: 100%;
+            flex-direction: column;
+            gap: 0.5rem;
         }
 
-        .field-unit {
-            @@apply text-xs text-gray-500 mb-1;
-            position: absolute;
-            top: 0;
-            left: 0.5rem;
+        .calculated-value {
+        @@apply text-blue-600 font-mono text-sm bg-blue-50 px-2 py-1 rounded;
         }
 
-        .field-container {
-            position: relative;
-            width: 100%;
+        /* Results section styling */
+        .results-table {
+            font-size: 0.875rem;
         }
 
-        td.align-middle {
-            vertical-align: middle;
-        }
-
-        /* Results widget animation */
-        .slide-in {
-            animation: slideIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-        }
-
-        @@keyframes slideIn {
-            from {
-                transform: translateY(40px);
-                opacity: 0;
+            .results-table th {
+        @@apply bg-blue-50 text-blue-900 font-semibold p-3 text-center border border-blue-200;
+                font-size: 0.75rem;
             }
 
-            to {
-                transform: translateY(0);
-                opacity: 1;
+            .results-table td {
+        @@apply p-3 text-center border border-gray-200 font-mono;
+                font-size: 0.875rem;
             }
-        }
 
-        /* Custom gradients for tabs */
         .cooling-header {
             background: linear-gradient(to right, #e0f2fe, #bae6fd);
-            border-radius: 6px 6px 0 0;
         }
 
         .heating-header {
             background: linear-gradient(to right, #fee2e2, #fecaca);
-            border-radius: 6px 6px 0 0;
-        }
-
-        /* Refined shadows for summary cards */
-        .summary-card {
-            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
-            transition: all 0.3s ease;
-        }
-
-            .summary-card:hover {
-                box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
-                transform: translateY(-2px);
-            }
-
-        /* Loading spinner */
-        .animate-spin {
-            animation: spin 1s linear infinite;
-        }
-
-        @@keyframes spin {
-            from {
-                transform: rotate(0deg);
-            }
-
-            to {
-                transform: rotate(360deg);
-            }
-        }
-
-        /* Media queries for better responsiveness */
-        @@media (max-width: 640px) {
-            .table-data-input {
-                padding: 0.25rem !important;
-            }
-
-            .form-input, .form-select {
-                padding: 0.5rem;
-                font-size: 0.875rem;
-            }
         }
 
         /* Module loading indicator */
@@ -235,15 +180,15 @@
         </div>
     </div>
 
-    <!-- Page container with a max width and auto margins -->
+    <!-- Page container -->
     <div class="p-6 w-full mx-auto">
 
         <!-- Page Header -->
         <div class="mb-10 text-center">
-
-            <h1 class="text-4xl font-bold text-blue-900 mb-3">
+            <h1 class="text-4xl font-bold text-blue-900 mb-3">ERV Wheel Calculator</h1>
+            <div class="mb-4">
                 <a asp-controller="History" asp-action="Index" class="text-blue-600 hover:text-blue-800 font-medium">View Calculation History</a>
-            </h1>
+            </div>
             <p class="text-gray-600 text-lg max-w-2xl mx-auto">Enter system parameters to calculate energy recovery ventilation performance</p>
         </div>
 
@@ -254,7 +199,8 @@
 
                 <!-- Left Section - 55% width on large screens -->
                 <div class="w-full lg:w-3/5 px-4 mb-8">
-                    <!-- ERV Wheel Inputs Table -->
+
+                    <!-- ERV Wheel Inputs -->
                     <div class="card p-6 mb-8 hover:shadow-md transition-all duration-300">
                         <h2 class="section-title flex items-center">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-blue-600" viewBox="0 0 20 20" fill="currentColor">
@@ -262,104 +208,102 @@
                             </svg>
                             ERV Wheel Inputs
                         </h2>
-                        <table class="w-full border-collapse mb-4 border rounded-lg overflow-hidden table-fixed">
-                            <thead>
-                                <tr>
-                                    <th class="table-header rounded-tl-lg bg-gray-100 font-medium w-1/3">Parameters</th>
-                                    <th class="table-header text-center cooling-header font-medium w-1/3">Cooling</th>
-                                    <th class="table-header text-center rounded-tr-lg heating-header font-medium w-1/3">Heating</th>
-                                </tr>
-                            </thead>
-                            <tbody class="w-full">
-                                <tr class="hover:bg-gray-50">
-                                    <td class="table-data font-medium align-middle">Outdoor Air Temperature (O.A. dry bulb)</td>
-                                    <td class="table-data align-middle table-data-input">
-                                        <input class="form-input" type="Number" name="OADryBulb" id="C7" placeholder="0.0" />
-                                    </td>
-                                    <td class="table-data align-middle table-data-input">
-                                        <input class="form-input" type="Number" name="OADryBulb" id="D7" placeholder="0.0" />
-                                    </td>
-                                </tr>
-                                <tr class="hover:bg-gray-50">
-                                    <td class="table-data font-medium align-middle">Outdoor Air Temperature (O.A. wet bulb)</td>
-                                    <td class="table-data align-middle table-data-input">
-                                        <input class="form-input" type="text" name="OAWetBulb" id="C8" placeholder="0.0" />
-                                    </td>
-                                    <td class="table-data align-middle table-data-input">
-                                        <input class="form-input" type="text" name="OAWetBulb" id="D8" placeholder="0.0" />
-                                    </td>
-                                </tr>
-                                <tr class="hover:bg-gray-50">
-                                    <td class="table-data font-medium align-middle">Return Air Temperature (R.A. dry bulb)</td>
-                                    <td class="table-data align-middle table-data-input">
-                                        <input class="form-input" type="text" name="RADryBulb" id="C9" placeholder="0.0" />
-                                    </td>
-                                    <td class="table-data align-middle table-data-input">
-                                        <input class="form-input" type="text" name="RADryBulb" id="D9" placeholder="0.0" />
-                                    </td>
-                                </tr>
-                                <tr class="hover:bg-gray-50">
-                                    <td class="table-data font-medium align-middle">Return Air Temperature (R.A. wet bulb)</td>
-                                    <td class="table-data align-middle table-data-input">
-                                        <input class="form-input" type="text" name="RAWetBulb" id="C10" placeholder="0.0" />
-                                    </td>
-                                    <td class="table-data align-middle table-data-input">
-                                        <input class="form-input" type="text" name="RAWetBulb" id="D10" placeholder="0.0" />
-                                    </td>
-                                </tr>
-                                <tr class="bg-gray-50">
-                                    <td class="table-data font-medium align-middle">OA Grains (calculated)</td>
-                                    <td class="table-data text-center font-mono bg-blue-50 align-middle" id="C11">--</td>
-                                    <td class="table-data text-center font-mono bg-red-50 align-middle" id="D11">--</td>
-                                </tr>
-                                <tr class="bg-gray-50">
-                                    <td class="table-data font-medium align-middle">RA Grains (calculated)</td>
-                                    <td class="table-data text-center font-mono bg-blue-50 align-middle" id="C12">--</td>
-                                    <td class="table-data text-center font-mono bg-red-50 align-middle" id="D12">--</td>
-                                </tr>
-                                <tr class="hover:bg-gray-50">
-                                    <td class="table-data font-medium align-middle">Return Air Pressure (ESP)</td>
-                                    <td class="table-data text-center font-mono bg-gray-50 align-middle" id="C13">--</td>
-                                    <td class="table-data font-medium text-center bg-blue-50 align-middle">Altitude (ft.)</td>
-                                </tr>
-                                <tr class="hover:bg-gray-50">
-                                    <td class="table-data font-medium align-middle">Nearest Location (elevation)</td>
-                                    <td class="table-data align-middle table-data-input">
-                                        <select class="form-select" name="nearestLocation" id="C14">
-                                            <option value="">Select City</option>
-                                            <!-- Options will be populated by JavaScript -->
-                                        </select>
-                                    </td>
-                                    <td class="table-data text-center font-mono bg-gray-50 align-middle" id="D14">--</td>
-                                </tr>
-                                <tr class="hover:bg-gray-50">
-                                    <td class="table-data font-medium align-middle">Supply Air CFM</td>
-                                    <td class="table-data align-middle table-data-input">
-                                        <input class="form-input" type="text" name="supplyAirCFM" id="C15" placeholder="0" />
-                                    </td>
-                                    <td class="table-data"></td>
-                                </tr>
-                                <tr class="hover:bg-gray-50">
-                                    <td class="table-data font-medium align-middle">Outdoor Air CFM</td>
-                                    <td class="table-data align-middle table-data-input">
-                                        <input class="form-input" type="text" name="F2_outdoorAirCFM" id="C16" placeholder="0" />
-                                    </td>
-                                    <td class="table-data"></td>
-                                </tr>
-                                <tr class="hover:bg-gray-50">
-                                    <td class="table-data font-medium align-middle">Exhaust Return Air CFM</td>
-                                    <td class="table-data align-middle table-data-input">
-                                        <input class="form-input" type="text" name="exhaustReturnAirCFM" id="C17" placeholder="0" />
-                                    </td>
-                                    <td class="table-data"></td>
-                                </tr>
-                                <tr class="bg-gray-50">
-                                    <td class="table-data font-medium align-middle">Mixed Return Air CFM</td>
-                                    <td class="table-data text-center font-mono bg-blue-50 align-middle" id="C18">--</td>
-                                    <td class="table-data"></td>
-                                </tr>
-                            </tbody>
-                        </table>
+
+                        <div class="overflow-x-auto">
+                            <table class="w-full border-collapse">
+                                <thead>
+                                    <tr>
+                                        <th class="table-header">Parameter</th>
+                                        <th class="table-header">Cooling</th>
+                                        <th class="table-header">Heating</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="hover:bg-gray-50">
+                                        <td class="table-data font-medium align-middle">Outdoor Air Temperature (O.A. dry bulb)</td>
+                                        <td class="table-data align-middle table-data-input">
+                                            <input class="form-input" type="text" name="oaDryBulbCooling" id="C7" placeholder="95" />
+                                        </td>
+                                        <td class="table-data align-middle table-data-input">
+                                            <input class="form-input" type="text" name="oaDryBulbHeating" id="D7" placeholder="-20" />
+                                        </td>
+                                    </tr>
+                                    <tr class="hover:bg-gray-50">
+                                        <td class="table-data font-medium align-middle">Outdoor Air Temperature (O.A. wet bulb)</td>
+                                        <td class="table-data align-middle table-data-input">
+                                            <input class="form-input" type="text" name="oaWetBulbCooling" id="C8" placeholder="75" />
+                                        </td>
+                                        <td class="table-data align-middle table-data-input">
+                                            <input class="form-input" type="text" name="oaWetBulbHeating" id="D8" placeholder="-20" />
+                                        </td>
+                                    </tr>
+                                    <tr class="hover:bg-gray-50">
+                                        <td class="table-data font-medium align-middle">Return Air Temperature (R.A. dry bulb)</td>
+                                        <td class="table-data align-middle table-data-input">
+                                            <input class="form-input" type="text" name="raDryBulbCooling" id="C9" placeholder="69" />
+                                        </td>
+                                        <td class="table-data align-middle table-data-input">
+                                            <input class="form-input" type="text" name="raDryBulbHeating" id="D9" placeholder="58" />
+                                        </td>
+                                    </tr>
+                                    <tr class="hover:bg-gray-50">
+                                        <td class="table-data font-medium align-middle">Return Air Temperature (R.A. wet bulb)</td>
+                                        <td class="table-data align-middle table-data-input">
+                                            <input class="form-input" type="text" name="raWetBulbCooling" id="C10" placeholder="67" />
+                                        </td>
+                                        <td class="table-data align-middle table-data-input">
+                                            <input class="form-input" type="text" name="raWetBulbHeating" id="D10" placeholder="54" />
+                                        </td>
+                                    </tr>
+                                    <tr class="hover:bg-gray-50">
+                                        <td class="table-data font-medium align-middle">OA Grains (calculated)</td>
+                                        <td class="table-data text-center font-mono bg-gray-50 align-middle" id="C11">--</td>
+                                        <td class="table-data text-center font-mono bg-gray-50 align-middle" id="D11">--</td>
+                                    </tr>
+                                    <tr class="hover:bg-gray-50">
+                                        <td class="table-data font-medium align-middle">RA Grains (calculated)</td>
+                                        <td class="table-data text-center font-mono bg-gray-50 align-middle" id="C12">--</td>
+                                        <td class="table-data text-center font-mono bg-gray-50 align-middle" id="D12">--</td>
+                                    </tr>
+                                    <tr class="hover:bg-gray-50">
+                                        <td class="table-data font-medium align-middle">Nearest Location (elevation)</td>
+                                        <td class="table-data align-middle table-data-input">
+                                            <select class="form-select" name="nearestLocation" id="C14">
+                                                <option value="">Select City</option>
+                                                <!-- Options will be populated by JavaScript -->
+                                            </select>
+                                        </td>
+                                        <td class="table-data text-center font-mono bg-gray-50 align-middle" id="D14">--</td>
+                                    </tr>
+                                    <tr class="hover:bg-gray-50">
+                                        <td class="table-data font-medium align-middle">Supply Air CFM</td>
+                                        <td class="table-data align-middle table-data-input">
+                                            <input class="form-input" type="text" name="supplyAirCFM" id="C15" placeholder="5600" />
+                                        </td>
+                                        <td class="table-data"></td>
+                                    </tr>
+                                    <tr class="hover:bg-gray-50">
+                                        <td class="table-data font-medium align-middle">Outdoor Air CFM</td>
+                                        <td class="table-data align-middle table-data-input">
+                                            <input class="form-input" type="text" name="outdoorAirCFM" id="C16" placeholder="1200" />
+                                        </td>
+                                        <td class="table-data"></td>
+                                    </tr>
+                                    <tr class="hover:bg-gray-50">
+                                        <td class="table-data font-medium align-middle">Exhaust Return Air CFM</td>
+                                        <td class="table-data align-middle table-data-input">
+                                            <input class="form-input" type="text" name="exhaustReturnAirCFM" id="C17" placeholder="1200" />
+                                        </td>
+                                        <td class="table-data"></td>
+                                    </tr>
+                                    <tr class="hover:bg-gray-50">
+                                        <td class="table-data font-medium align-middle">Mixed Return Air CFM</td>
+                                        <td class="table-data text-center font-mono bg-gray-50 align-middle" id="C18">--</td>
+                                        <td class="table-data"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
 
                     <!-- Unit Selections -->
@@ -370,121 +314,62 @@
                             </svg>
                             Unit Selections
                         </h2>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6 w-full">
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-2" for="C21">ERV Wheel Type</label>
-                                <select id="C21" class="form-select" name="ervWheelType">
-                                    <option value="">Select Type</option>
-                                    <option value="1">Aluminum</option>
-                                    <option value="2">MS Coated</option>
-                                    <option value="3">Polymer</option>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="field-wrapper">
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Trane Model Unit</label>
+                                <select class="form-select" name="unitModel" id="C21">
+                                    <option value="">Select Unit Model</option>
+                                    <!-- Options populated by JavaScript -->
                                 </select>
                             </div>
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-2" for="C22">ERV Model Selection</label>
-                                <select id="C22" class="form-select" name="ervModelSelection">
-                                    <option value="">Select Model</option>
-                                    <option value="1">ERC</option>
-                                    <option value="2">HRV</option>
-                                    <option value="3">ERV</option>
+                            <div class="field-wrapper">
+                                <label class="block text-sm font-medium text-gray-700 mb-2">ERV Wheel Type</label>
+                                <select class="form-select" name="ervWheelType" id="C22">
+                                    <option value="">Select Wheel Type</option>
+                                    <!-- Options populated by JavaScript -->
                                 </select>
                             </div>
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-2" for="C23">ERV Size Selection</label>
-                                <select id="C23" class="form-select" name="ervSizeSelection">
-                                    <option value="">Select Size</option>
-                                    <option value="1">Small (10-20)</option>
-                                    <option value="2">Medium (30-50)</option>
-                                    <option value="3">Large (60-100)</option>
+                            <div class="field-wrapper">
+                                <label class="block text-sm font-medium text-gray-700 mb-2">ERV Wheel Selection</label>
+                                <select class="form-select" name="ervSizeSelection" id="C23">
+                                    <option value="">Select ERV Model</option>
+                                    <!-- Options populated by JavaScript -->
                                 </select>
                             </div>
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-2" for="C24">Filter Type</label>
-                                <select id="C24" class="form-select" name="filterType">
-                                    <option value="">Select Filter</option>
-                                    <option value="1">MERV 8</option>
-                                    <option value="2">MERV 13</option>
-                                    <option value="3">HEPA</option>
+                            <div class="field-wrapper">
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Filter Type</label>
+                                <select class="form-select" name="filterType" id="C24">
+                                    <option value="">Select Filter Type</option>
+                                    <!-- Options populated by JavaScript -->
                                 </select>
                             </div>
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-2" for="C25">Purge Type</label>
-                                <select id="C25" class="form-select" name="purgeType">
-                                    <option value="">Select Purge</option>
-                                    <option value="0">0°</option>
-                                    <option value="5">5°</option>
-                                    <option value="10">10°</option>
+                            <div class="field-wrapper">
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Purge Angle</label>
+                                <select class="form-select" name="purgeAngle" id="C25">
+                                    <option value="">Select Purge Angle</option>
+                                    <!-- Options populated by JavaScript -->
                                 </select>
                             </div>
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-2" for="C28">Unit Voltage</label>
-                                <select id="C28" class="form-select" name="unitVoltage">
+                            <div class="field-wrapper">
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Trane Original Unit Tons</label>
+                                <input class="form-input" type="text" name="traneOriginalTons" id="C26" placeholder="12.5" />
+                            </div>
+                            <div class="field-wrapper">
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Trane Stated EER</label>
+                                <input class="form-input" type="text" name="traneStatedEER" id="C27" placeholder="10.5" />
+                            </div>
+                            <div class="field-wrapper">
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Unit Voltage</label>
+                                <select class="form-select" name="unitVoltage" id="C28">
                                     <option value="">Select Voltage</option>
-                                    <option value="110">110V</option>
-                                    <option value="220">220V</option>
-                                    <option value="440">440V</option>
+                                    <!-- Options populated by JavaScript -->
                                 </select>
-                            </div>
-                        </div>
-
-                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 w-full">
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-2" for="C26">Trane Original Unit Tons</label>
-                                <select id="C26" class="form-select" name="traneOriginalTons">
-                                    <option value="">Select Tons</option>
-                                    <option value="3">3 Tons</option>
-                                    <option value="5">5 Tons</option>
-                                    <option value="10">10 Tons</option>
-                                </select>
-                            </div>
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-2" for="D26">Tonnage with ERV</label>
-                                <div class="form-input bg-gray-50 text-blue-800 font-medium" id="D26">--</div>
-                            </div>
-                        </div>
-
-                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6 w-full">
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-2" for="C27">Trane Stated EER</label>
-                                <select id="C27" class="form-select" name="traneStatedEER">
-                                    <option value="">Select EER</option>
-                                    <option value="10">10.0</option>
-                                    <option value="11">11.0</option>
-                                    <option value="12">12.0</option>
-                                </select>
-                            </div>
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-2" for="D27">EER Value</label>
-                                <div class="form-input bg-gray-50 text-green-800 font-medium" id="D27">--</div>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Pre-Heater & Post Preheat Data -->
-                    <div class="card p-6 hover:shadow-md transition-all duration-300">
-                        <h2 class="section-title flex items-center">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-blue-600" viewBox="0 0 20 20" fill="currentColor">
-                                <path fill-rule="evenodd" d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z" clip-rule="evenodd" />
-                            </svg>
-                            Pre-Heater &amp; Post Preheat Data
-                        </h2>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 w-full">
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-2" for="H26">Pre-Heater Size:</label>
-                                <input class="form-input" type="number" name="preHeaterSize" id="H26" placeholder="10" />
-                            </div>
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-2">Post Preheat Air Temp</label>
-                                <div class="form-input bg-gray-50 text-blue-800 font-medium mb-3" id="I26">--</div>
-                                <div class="form-input bg-gray-50 text-red-800 font-medium" id="I27">--</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- End of Left Section -->
-                <!-- Right Section - 40% width on large screens -->
-                <div class="w-full lg:w-2/5 px-4">
-                    <!-- Location Info -->
+                    <!-- Location Information -->
                     <div class="card p-6 mb-8 hover:shadow-md transition-all duration-300">
                         <h2 class="section-title flex items-center">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-blue-600" viewBox="0 0 20 20" fill="currentColor">
@@ -492,12 +377,12 @@
                             </svg>
                             Location Information
                         </h2>
-                        <table class="w-full border-collapse mb-2 border rounded-lg overflow-hidden location-table">
+                        <table class="location-table">
                             <thead>
                                 <tr>
-                                    <th class="table-header text-left rounded-tl-lg bg-gray-100"></th>
-                                    <th class="table-header text-center bg-gray-100">City</th>
-                                    <th class="table-header text-center rounded-tr-lg bg-gray-100">Altitude (ft.)</th>
+                                    <th class="table-header">Parameter</th>
+                                    <th class="table-header">Selection</th>
+                                    <th class="table-header">Altitude (ft.)</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -517,6 +402,11 @@
                         </table>
                     </div>
 
+                </div>
+
+                <!-- Right Section - 45% width on large screens -->
+                <div class="w-full lg:w-2/5 px-4">
+
                     <!-- Fan Data -->
                     <div class="card p-6 mb-8 hover:shadow-md transition-all duration-300">
                         <h2 class="section-title flex items-center">
@@ -525,225 +415,195 @@
                             </svg>
                             Fan Data
                         </h2>
-                        <table class="w-full border-collapse mb-2 border rounded-lg overflow-hidden">
-                            <tbody>
-                                <tr class="hover:bg-gray-50">
-                                    <td class="table-data font-medium align-middle bg-gray-50">Fan Type</td>
-                                    <td class="table-data font-mono align-middle text-blue-800" id="H6">--</td>
-                                </tr>
-                                <tr class="hover:bg-gray-50">
-                                    <td class="table-data font-medium align-middle bg-gray-50">Motor Size (HP)</td>
-                                    <td class="table-data font-mono align-middle text-blue-800" id="H7">--</td>
-                                </tr>
-                                <tr class="hover:bg-gray-50">
-                                    <td class="table-data font-medium align-middle bg-gray-50">Fan RPM</td>
-                                    <td class="table-data font-mono align-middle text-blue-800" id="H8">--</td>
-                                </tr>
-                                <tr class="hover:bg-gray-50">
-                                    <td class="table-data font-medium align-middle bg-gray-50">Fan/Motor BHP</td>
-                                    <td class="table-data font-mono align-middle text-blue-800" id="H9">--</td>
-                                </tr>
-                                <tr class="hover:bg-gray-50">
-                                    <td class="table-data font-medium align-middle bg-gray-50">Total Static Pressure</td>
-                                    <td class="table-data font-mono align-middle text-blue-800" id="H10">--</td>
-                                </tr>
-                            </tbody>
-                        </table>
+                        <div class="space-y-3">
+                            <div class="flex justify-between items-center">
+                                <span class="text-sm font-medium text-gray-700">Fan Type:</span>
+                                <span class="calculated-value" id="H6">--</span>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span class="text-sm font-medium text-gray-700">Motor Size (HP):</span>
+                                <span class="calculated-value" id="H7">--</span>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span class="text-sm font-medium text-gray-700">Fan RPM:</span>
+                                <span class="calculated-value" id="H8">--</span>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span class="text-sm font-medium text-gray-700">Fan/Motor BHP:</span>
+                                <span class="calculated-value" id="H9">--</span>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span class="text-sm font-medium text-gray-700">Total Static Pressure:</span>
+                                <span class="calculated-value" id="H10">--</span>
+                            </div>
+                        </div>
                     </div>
 
-                    <!-- Motor, Belt and Pullies -->
+                    <!-- Motor, Belt and Pulleys -->
                     <div class="card p-6 mb-8 hover:shadow-md transition-all duration-300">
                         <h2 class="section-title flex items-center">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-blue-600" viewBox="0 0 20 20" fill="currentColor">
-                                <path fill-rule="evenodd" d="M12.316 3.051a1 1 0 01.633 1.265l-4 12a1 1 0 11-1.898-.632l4-12a1 1 0 011.265-.633zM5.707 6.293a1 1 0 010 1.414L3.414 10l2.293 2.293a1 1 0 11-1.414 1.414l-3-3a1 1 0 010-1.414l3-3a1 1 0 011.414 0zm8.586 0a1 1 0 011.414 0l3 3a1 1 0 010 1.414l-3 3a1 1 0 11-1.414-1.414L16.586 10l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+                                <path fill-rule="evenodd" d="M11.49 3.17c-.38-1.56-2.6-1.56-2.98 0a1.532 1.532 0 01-2.286.948c-1.372-.836-2.942.734-2.106 2.106.54.886.061 2.042-.947 2.287-1.561.379-1.561 2.6 0 2.978a1.532 1.532 0 01.947 2.287c-.836 1.372.734 2.942 2.106 2.106a1.532 1.532 0 012.287.947c.379 1.561 2.6 1.561 2.978 0a1.533 1.533 0 012.287-.947c1.372.836 2.942-.734 2.106-2.106a1.533 1.533 0 01.947-2.287c1.561-.379 1.561-2.6 0-2.978a1.532 1.532 0 01-.947-2.287c.836-1.372-.734-2.942-2.106-2.106a1.532 1.532 0 01-2.287-.947zM10 13a3 3 0 100-6 3 3 0 000 6z" clip-rule="evenodd" />
                             </svg>
-                            Motor, Belt and Pullies
+                            Motor, Belt and Pulleys
                         </h2>
-                        <div class="grid grid-cols-1 gap-6 mb-6">
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-2" for="H13">Motor with grounding ring?</label>
-                                <select name="motorGroundingRing" id="H13" class="form-select">
-                                    <option value="">Select Option</option>
-                                    <option value="0">No</option>
-                                    <option value="1">Yes</option>
-                                </select>
+                        <div class="space-y-4">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div class="field-wrapper">
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Motor with grounding ring?</label>
+                                    <select class="form-select" name="motorGroundingRing" id="H13">
+                                        <option value="No">No</option>
+                                        <option value="Yes">Yes</option>
+                                    </select>
+                                </div>
+                                <div class="field-wrapper">
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">VAV system with VDF?</label>
+                                    <select class="form-select" name="vavSystemVdf" id="H14">
+                                        <option value="No">No</option>
+                                        <option value="Yes">Yes</option>
+                                    </select>
+                                </div>
                             </div>
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-2" for="H14">VAV system with VDF?</label>
-                                <select name="vavSystemVdf" id="H14" class="form-select">
-                                    <option value="">Select Option</option>
-                                    <option value="0">No</option>
-                                    <option value="1">Yes</option>
-                                </select>
+                            <div class="space-y-3">
+                                <div class="flex justify-between items-center">
+                                    <span class="text-sm font-medium text-gray-700">Motor:</span>
+                                    <div class="flex gap-2">
+                                        <span class="calculated-value" id="G16">--</span>
+                                        <span class="calculated-value" id="H16">--</span>
+                                    </div>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-sm font-medium text-gray-700">Driver:</span>
+                                    <div class="flex gap-2">
+                                        <span class="calculated-value" id="G17">--</span>
+                                        <span class="calculated-value" id="H17">--</span>
+                                    </div>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-sm font-medium text-gray-700">Driven:</span>
+                                    <div class="flex gap-2">
+                                        <span class="calculated-value" id="G18">--</span>
+                                        <span class="calculated-value" id="H18">--</span>
+                                    </div>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-sm font-medium text-gray-700">Belt:</span>
+                                    <div class="flex gap-2">
+                                        <span class="calculated-value" id="G19">--</span>
+                                        <span class="calculated-value" id="H19">--</span>
+                                    </div>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-sm font-medium text-gray-700">RPM:</span>
+                                    <span class="calculated-value" id="H20">--</span>
+                                </div>
                             </div>
                         </div>
-
-                        <table class="w-full border-collapse border rounded-lg overflow-hidden">
-                            <thead>
-                                <tr>
-                                    <th class="table-header text-left rounded-tl-lg bg-gray-100">Part</th>
-                                    <th class="table-header text-center bg-gray-100">Value</th>
-                                    <th class="table-header text-center rounded-tr-lg bg-gray-100">PN</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr class="hover:bg-gray-50">
-                                    <td class="table-data font-medium align-middle bg-gray-50">Motor:</td>
-                                    <td class="table-data font-mono text-center align-middle text-blue-800" id="G16">--</td>
-                                    <td class="table-data font-mono text-center align-middle text-blue-800" id="H16">--</td>
-                                </tr>
-                                <tr class="hover:bg-gray-50">
-                                    <td class="table-data font-medium align-middle bg-gray-50">Driver:</td>
-                                    <td class="table-data font-mono text-center align-middle text-blue-800" id="G17">--</td>
-                                    <td class="table-data font-mono text-center align-middle text-blue-800" id="H17">--</td>
-                                </tr>
-                                <tr class="hover:bg-gray-50">
-                                    <td class="table-data font-medium align-middle bg-gray-50">Driven:</td>
-                                    <td class="table-data font-mono text-center align-middle text-blue-800" id="G18">--</td>
-                                    <td class="table-data font-mono text-center align-middle text-blue-800" id="H18">--</td>
-                                </tr>
-                                <tr class="hover:bg-gray-50">
-                                    <td class="table-data font-medium align-middle bg-gray-50">Belt:</td>
-                                    <td class="table-data font-mono text-center align-middle text-blue-800" id="G19">--</td>
-                                    <td class="table-data font-mono text-center align-middle text-blue-800" id="H19">--</td>
-                                </tr>
-                                <tr class="hover:bg-gray-50">
-                                    <td class="table-data font-medium align-middle bg-gray-50">RPM:</td>
-                                    <td class="table-data font-mono text-center align-middle text-blue-800" colspan="2" id="H20">--</td>
-                                </tr>
-                            </tbody>
-                        </table>
                     </div>
 
-                    <!-- Submit Button -->
-                    <div class="text-center mt-8">
-                        <button type="submit"
-                                class="px-8 py-4 bg-blue-600 text-white rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-500 focus:ring-opacity-50 shadow-lg w-full font-medium text-lg transition-all duration-300">
-                            Calculate Results
-                        </button>
+                    <!-- Pre-Heater -->
+                    <div class="card p-6 mb-8 hover:shadow-md transition-all duration-300">
+                        <h2 class="section-title flex items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-blue-600" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" clip-rule="evenodd" />
+                            </svg>
+                            Pre-Heater
+                        </h2>
+                        <div class="field-wrapper">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Pre-Heater Size</label>
+                            <input class="form-input" type="text" name="preHeaterSize" id="H26" placeholder="10" />
+                        </div>
                     </div>
 
-                    <!-- Utility Buttons -->
-                    <div class="grid grid-cols-2 gap-4 mt-4">
-                        <button type="button" onclick="window.ERVCalculator.exportResults()"
-                                class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 text-sm transition-all duration-300">
-                            Export Results
-                        </button>
-                        <button type="button" onclick="window.ERVCalculator.importFromFile()"
-                                class="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500 text-sm transition-all duration-300">
-                            Import Data
-                        </button>
-                    </div>
                 </div>
-                <!-- End of Right Section -->
             </div>
-            <!-- End of flex wrapper -->
+
+            <!-- Submit Button -->
+            <div class="flex justify-center space-x-4 mt-8">
+                <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-8 rounded-lg shadow-lg transition-all duration-200">
+                    Calculate ERV Performance
+                </button>
+                <button type="button" id="exportBtn" class="bg-green-600 hover:bg-green-700 text-white font-semibold py-3 px-8 rounded-lg shadow-lg transition-all duration-200">
+                    Export Results
+                </button>
+                <button type="button" id="importBtn" class="bg-purple-600 hover:bg-purple-700 text-white font-semibold py-3 px-8 rounded-lg shadow-lg transition-all duration-200">
+                    Import Calculation
+                </button>
+            </div>
+
         </form>
-        <!-- End of form -->
-        <!-- Results Widget (Hidden Initially) -->
-        <div id="resultsWidget" class="hidden w-full">
-            <div class="card p-8 mb-10 shadow-xl slide-in w-full">
-                <div class="flex justify-between items-center mb-6 border-b pb-4 border-gray-200">
-                    <h2 class="text-2xl font-bold text-blue-900">Performance Results</h2>
-                    <button id="saveResultsBtn" class="px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 focus:outline-none focus:ring-4 focus:ring-green-500 focus:ring-opacity-50 shadow-md flex items-center transition-all duration-300">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline-block mr-2" viewBox="0 0 20 20" fill="currentColor">
-                            <path d="M7.707 10.293a1 1 0 10-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L11 11.586V6h5a2 2 0 012 2v7a2 2 0 01-2 2H4a2 2 0 01-2-2V8a2 2 0 012-2h5v5.586l-1.293-1.293zM9 4a1 1 0 012 0v2H9V4z" />
-                        </svg>
-                        Save Results
-                    </button>
-                </div>
 
-                <!-- Performance Tables -->
-                <div class="overflow-x-auto rounded-lg shadow-sm border border-gray-200 w-full">
-                    <table class="w-full border-collapse" style="min-width: 1200px;">
-                        <thead>
-                            <tr class="bg-gray-50">
-                                <th class="border border-gray-300 p-4 bg-white text-left font-semibold text-gray-800 rounded-tl-lg">
-                                    Aluminum ERC Series (Airxchange)
-                                </th>
-                                <th class="border border-gray-300 p-4 bg-white text-center font-semibold text-gray-800">
-                                    Unit<br>Effectiveness
-                                </th>
-                                <th class="border border-gray-300 p-4 text-center font-semibold text-gray-800 bg-gray-50">
-                                    ERV Air<br>Pressure Loss
-                                </th>
-                                <th class="border border-gray-300 p-4 text-center font-semibold text-gray-800 bg-gray-50">
-                                    Velocity
-                                </th>
-                                <th class="border border-gray-300 p-4 bg-white text-center font-semibold text-gray-800">
-                                    ERV Dry<br>(bulb °F)
-                                </th>
-                                <th class="border border-gray-300 p-4 bg-white text-center font-semibold text-gray-800">
-                                    ERV Wet<br>(bulb °F)
-                                </th>
-                                <th class="border border-gray-300 p-4 text-center font-semibold text-gray-800 bg-gray-50">
-                                    M.S.A. Dry<br>Bulb (°F)
-                                </th>
-                                <th class="border border-gray-300 p-4 text-center font-semibold text-gray-800 bg-gray-50">
-                                    M.S.A. Wet<br>Bulb (°F)
-                                </th>
-                                <th class="border border-gray-300 p-4 bg-white text-center font-semibold text-gray-800">
-                                    ERV effective<br>Cooling (Tons)
-                                </th>
-                                <th class="border border-gray-300 p-4 text-center font-semibold text-gray-800 rounded-tr-lg bg-gray-50">
-                                    Cooling<br>(Sensible MBH)
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <!-- Summer Performance RESULTS -->
-                            <tr>
-                                <td class="border border-gray-300 p-4 font-medium cooling-header" colspan="10">
-                                    Summer Performance (Cooling Data)
-                                </td>
-                            </tr>
-                            <tr class="hover:bg-blue-50 transition-colors duration-150">
-                                <td class="border p-4 font-medium bg-gray-50" id="B33">--</td>
-                                <td class="border p-4 text-center font-mono" id="C33">--</td>
-                                <td class="border p-4 text-center font-mono bg-gray-50" id="D33">--</td>
-                                <td class="border p-4 text-center font-mono bg-gray-50" id="E33">--</td>
-                                <td class="border p-4 text-center font-mono" id="F33">--</td>
-                                <td class="border p-4 text-center font-mono" id="G33">--</td>
-                                <td class="border p-4 text-center font-mono bg-gray-50" id="H33">--</td>
-                                <td class="border p-4 text-center font-mono bg-gray-50" id="I33">--</td>
-                                <td class="border p-4 text-center font-mono" id="J33">--</td>
-                                <td class="border p-4 text-center font-mono bg-gray-50" id="K33">--</td>
-                            </tr>
+        <!-- Results Section -->
+        <div class="card p-8 mb-10 shadow-lg">
+            <h2 class="section-title flex items-center mb-6">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2 text-blue-600" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M3 4a1 1 0 011-1h4a1 1 0 010 2H6.414l2.293 2.293a1 1 0 01-1.414 1.414L5 6.414V8a1 1 0 01-2 0V4zm9 1a1 1 0 010-2h4a1 1 0 011 1v4a1 1 0 01-2 0V6.414l-2.293 2.293a1 1 0 11-1.414-1.414L13.586 5H12zm-9 7a1 1 0 012 0v1.586l2.293-2.293a1 1 0 111.414 1.414L6.414 15H8a1 1 0 010 2H4a1 1 0 01-1-1v-4zm13-1a1 1 0 011 1v4a1 1 0 01-1 1h-4a1 1 0 010-2h1.586l-2.293-2.293a1 1 0 111.414-1.414L15 13.586V12a1 1 0 011-1z" clip-rule="evenodd" />
+                </svg>
+                Performance Results
+            </h2>
 
-                            <!-- Winter Performance -->
-                            <tr>
-                                <td class="border border-gray-300 p-4 font-medium heating-header" colspan="10">
-                                    Winter Performance (Heating Data)
-                                </td>
-                            </tr>
-                            <tr class="hover:bg-red-50 transition-colors duration-150">
-                                <td class="border p-4 font-medium bg-gray-50" id="B35">--</td>
-                                <td class="border p-4 text-center font-mono" id="C35">--</td>
-                                <td class="border p-4 text-center font-mono bg-gray-50" id="D35">--</td>
-                                <td class="border p-4 text-center font-mono bg-gray-50" id="E35">--</td>
-                                <td class="border p-4 text-center font-mono" id="F35">--</td>
-                                <td class="border p-4 text-center font-mono" id="G35">--</td>
-                                <td class="border p-4 text-center font-mono bg-gray-50" id="H35">--</td>
-                                <td class="border p-4 text-center font-mono bg-gray-50" id="I35">--</td>
-                                <td class="border p-4 text-center font-mono" id="J35">--</td>
-                                <td class="border p-4 text-center font-mono bg-gray-50 rounded-br-lg" id="K35">--</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
+            <div class="overflow-x-auto">
+                <table class="results-table w-full border-collapse">
+                    <thead>
+                        <tr>
+                            <th class="w-32">Model Designation</th>
+                            <th>Unit Effectiveness</th>
+                            <th>ERV Air Pressure Loss</th>
+                            <th>Velocity</th>
+                            <th>ERV Dry bulb (°F)</th>
+                            <th>ERV Wet bulb (°F)</th>
+                            <th>M.S.A. Dry Bulb (°F)</th>
+                            <th>M.S.A. Wet Bulb (°F)</th>
+                            <th>ERV effective Cooling (Tons)</th>
+                            <th>Cooling (Sensible MBH)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Summer Performance (Cooling Data) -->
+                        <tr>
+                            <td class="border border-gray-300 p-4 font-medium cooling-header" colspan="10">
+                                Summer Performance (Cooling Data)
+                            </td>
+                        </tr>
+                        <tr class="hover:bg-blue-50 transition-colors duration-150">
+                            <td class="border p-4 font-medium bg-gray-50" id="B33">--</td>
+                            <td class="border p-4 text-center font-mono" id="C33">--</td>
+                            <td class="border p-4 text-center font-mono bg-gray-50" id="D33">--</td>
+                            <td class="border p-4 text-center font-mono bg-gray-50" id="E33">--</td>
+                            <td class="border p-4 text-center font-mono" id="F33">--</td>
+                            <td class="border p-4 text-center font-mono" id="G33">--</td>
+                            <td class="border p-4 text-center font-mono bg-gray-50" id="H33">--</td>
+                            <td class="border p-4 text-center font-mono bg-gray-50" id="I33">--</td>
+                            <td class="border p-4 text-center font-mono" id="J33">--</td>
+                            <td class="border p-4 text-center font-mono bg-gray-50" id="K33">--</td>
+                        </tr>
 
-                <!-- Description input for saving calculation -->
-                <div class="mt-6 p-4 bg-gray-50 rounded-lg">
-                    <h3 class="text-lg font-medium text-gray-700 mb-2">Add a Description (Optional)</h3>
-                    <input type="text" id="calculation-description" class="w-full p-2 border border-gray-300 rounded"
-                           placeholder="E.g., Summer calculation for Building A" />
-                </div>
+                        <!-- Winter Performance (Heating Data) -->
+                        <tr>
+                            <td class="border border-gray-300 p-4 font-medium heating-header" colspan="10">
+                                Winter Performance (Heating Data)
+                            </td>
+                        </tr>
+                        <tr class="hover:bg-red-50 transition-colors duration-150">
+                            <td class="border p-4 font-medium bg-gray-50" id="B35">--</td>
+                            <td class="border p-4 text-center font-mono" id="C35">--</td>
+                            <td class="border p-4 text-center font-mono bg-gray-50" id="D35">--</td>
+                            <td class="border p-4 text-center font-mono bg-gray-50" id="E35">--</td>
+                            <td class="border p-4 text-center font-mono" id="F35">--</td>
+                            <td class="border p-4 text-center font-mono" id="G35">--</td>
+                            <td class="border p-4 text-center font-mono bg-gray-50" id="H35">--</td>
+                            <td class="border p-4 text-center font-mono bg-gray-50" id="I35">--</td>
+                            <td class="border p-4 text-center font-mono" id="J35">--</td>
+                            <td class="border p-4 text-center font-mono bg-gray-50 rounded-br-lg" id="K35">--</td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
 
         <!-- Footer -->
-        <div class="text-center text-gray-500 text-sm mt-12 mb-6">
-            <p>© @DateTime.Now.Year ERV Wheel Calculator. All rights reserved.</p>
+        <div class="text-center text-gray-500 text-sm">
+            <p>&copy; 2024 ERV Calculator. All rights reserved.</p>
         </div>
     </div>
 
@@ -783,30 +643,5 @@
 
     <!-- ES6 Module Scripts -->
     <script type="module" src="~/js/main.js"></script>
-
-    <!-- Fallback for older browsers -->
-    <script nomodule>
-        document.getElementById('moduleLoading').innerHTML = `
-            <div class="text-center">
-                <div class="text-red-500 text-xl mb-4">⚠️</div>
-                <h3 class="text-lg font-medium text-gray-900 mb-2">Browser Not Supported</h3>
-                <p class="text-gray-600">This application requires a modern browser that supports ES6 modules.</p>
-                <p class="text-gray-600 mt-2">Please update your browser to continue.</p>
-            </div>
-        `;
-    </script>
-
-    <!-- Hide loading overlay once modules are loaded -->
-    <script type="module">
-        // Hide the module loading overlay once the main script loads
-        document.addEventListener('DOMContentLoaded', () => {
-            const loadingOverlay = document.getElementById('moduleLoading');
-            if (loadingOverlay) {
-                setTimeout(() => {
-                    loadingOverlay.style.display = 'none';
-                }, 100);
-            }
-        });
-    </script>
 </body>
 </html>
