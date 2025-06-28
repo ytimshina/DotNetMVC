@@ -1,7 +1,33 @@
 ﻿// js/modules/psychrometricFunctions.js
-// Exact recreation of Excel custom psychrometric functions
+// Exact recreation of Excel custom psychrometric functions with corrected imports
 
-import { PSYCHROMETRIC_CONSTANTS } from '.moduels/ervLookupData.js';
+// Psychrometric constants extracted from Excel
+export const PSYCHROMETRIC_CONSTANTS = {
+    // Standard atmospheric pressure at sea level (psia)
+    STANDARD_PRESSURE: 14.696,
+
+    // Gas constants
+    DRY_AIR_GAS_CONSTANT: 53.35, // ft·lbf/(lbm·°R)
+    WATER_VAPOR_GAS_CONSTANT: 85.778, // ft·lbf/(lbm·°R)
+
+    // Molecular weight ratio (water vapor/dry air)
+    MOLECULAR_WEIGHT_RATIO: 0.62198,
+
+    // Conversion factors
+    RANKINE_OFFSET: 459.67, // °R offset from °F
+
+    // Antoine equation constants for water vapor pressure
+    ANTOINE_A: 8.07131,
+    ANTOINE_B: 1730.63,
+    ANTOINE_C: 233.426,
+
+    // Enthalpy constants
+    ENTHALPY_DRY_AIR: 0.24, // Btu/(lb·°F)
+    ENTHALPY_WATER_VAPOR: 1061, // Btu/lb at 32°F
+
+    // Altitude adjustment factors
+    ALTITUDE_LAPSE_RATE: 0.0000368 // pressure change per foot
+};
 
 /**
  * Grains function - calculates grains of moisture per pound of dry air
@@ -20,17 +46,14 @@ export function Grains(dryBulb, pressure, mode, wetBulb) {
         const wb = parseFloat(wetBulb);
         const p = parseFloat(pressure);
 
-        // Convert temperatures to Celsius for calculation
-        const dbC = (db - 32) * 5 / 9;
-        const wbC = (wb - 32) * 5 / 9;
+        // Validate inputs
+        if (isNaN(db) || isNaN(wb) || isNaN(p)) return 0;
+        if (wb > db) return 0; // Wet bulb cannot exceed dry bulb
 
         // Calculate saturation pressure at wet bulb temperature using Antoine equation
-        const pws = Math.exp(
-            PSYCHROMETRIC_CONSTANTS.ANTOINE_A -
-            (PSYCHROMETRIC_CONSTANTS.ANTOINE_B / (wbC + PSYCHROMETRIC_CONSTANTS.ANTOINE_C))
-        ) * 0.14503773; // Convert kPa to psia
+        const pws = calculateSaturationPressure(wb);
 
-        // Calculate vapor pressure
+        // Calculate vapor pressure using psychrometric relationship
         const pv = pws - ((p - pws) * (db - wb) * 0.00066 * (1 + 0.00115 * wb));
 
         // Calculate humidity ratio

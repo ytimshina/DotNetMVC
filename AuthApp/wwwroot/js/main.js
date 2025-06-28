@@ -1,6 +1,5 @@
 ﻿// js/main.js
-// Main application file updated to work with the new HTML structure
-// Properly connects JavaScript to the Welcome HTML
+// Main application file - NO DEMO DATA - User must input all values
 
 import { MainControllerUpdated } from './controllers/mainControllerUpdated.js';
 
@@ -10,7 +9,7 @@ let app = null;
 // Initialize application when DOM is loaded
 document.addEventListener('DOMContentLoaded', async () => {
     try {
-        console.log('Initializing ERV Calculator with new HTML structure...');
+        console.log('Initializing ERV Calculator - NO DEMO DATA...');
 
         // Hide loading overlay
         const moduleLoading = document.getElementById('moduleLoading');
@@ -25,20 +24,44 @@ document.addEventListener('DOMContentLoaded', async () => {
         // Setup global event handlers
         setupGlobalEventHandlers();
 
-        // Perform initial calculation after a short delay
-        setTimeout(() => {
-            if (app && typeof app.performCalculation === 'function') {
-                app.performCalculation();
-            }
-        }, 1000);
-
-        console.log('ERV Calculator initialized successfully');
+        // DO NOT perform initial calculation - wait for user input
+        console.log('ERV Calculator ready - waiting for user input');
+        showWelcomeMessage();
 
     } catch (error) {
         console.error('Failed to initialize application:', error);
         showInitializationError(error);
     }
 });
+
+// Show welcome message to guide user
+function showWelcomeMessage() {
+    const notification = document.createElement('div');
+    notification.className = 'fixed top-4 right-4 bg-blue-100 border border-blue-400 text-blue-800 px-6 py-4 rounded-lg z-50 max-w-md shadow-lg';
+    notification.innerHTML = `
+        <div class="flex items-start">
+            <svg class="w-6 h-6 mr-3 mt-0.5 text-blue-600" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path>
+            </svg>
+            <div>
+                <h4 class="font-semibold mb-1">Welcome to ERV Calculator</h4>
+                <p class="text-sm">Please fill in all required fields. Calculations will begin automatically once all inputs are complete.</p>
+                <button class="mt-2 text-xs text-blue-600 hover:text-blue-800 underline" onclick="this.closest('.fixed').remove()">
+                    Got it
+                </button>
+            </div>
+        </div>
+    `;
+
+    document.body.appendChild(notification);
+
+    // Auto-remove after 10 seconds
+    setTimeout(() => {
+        if (notification.parentNode) {
+            notification.parentNode.removeChild(notification);
+        }
+    }, 10000);
+}
 
 // Setup global event handlers
 function setupGlobalEventHandlers() {
@@ -111,12 +134,49 @@ function setupGlobalEventHandlers() {
 
     // Handle window resize for responsive design
     window.addEventListener('resize', () => {
-        // Add any resize-specific logic here if needed
         adjustLayoutForMobile();
     });
 
     // Initial mobile layout adjustment
     adjustLayoutForMobile();
+
+    // Add input validation indicators
+    setupInputValidationIndicators();
+}
+
+// Setup visual indicators for required fields
+function setupInputValidationIndicators() {
+    const requiredInputs = document.querySelectorAll('input[type="text"], input[type="number"], select');
+
+    requiredInputs.forEach(input => {
+        // Add visual indicator for empty required fields
+        input.addEventListener('blur', () => {
+            if (input.value.trim() === '' && isRequiredField(input.id)) {
+                input.classList.add('border-red-300', 'bg-red-50');
+                input.classList.remove('border-gray-300');
+            } else {
+                input.classList.remove('border-red-300', 'bg-red-50');
+                input.classList.add('border-gray-300');
+            }
+        });
+
+        input.addEventListener('input', () => {
+            if (input.value.trim() !== '') {
+                input.classList.remove('border-red-300', 'bg-red-50');
+                input.classList.add('border-gray-300');
+            }
+        });
+    });
+}
+
+// Check if field is required based on controller mapping
+function isRequiredField(fieldId) {
+    const requiredFields = [
+        'C7', 'C8', 'C9', 'C10', 'D7', 'D8', 'D9', 'D10',
+        'C15', 'C16', 'C17', 'AE5', 'C21', 'C22', 'C23',
+        'C24', 'C25', 'C26', 'C27', 'C28', 'H13', 'H14'
+    ];
+    return requiredFields.includes(fieldId);
 }
 
 // Adjust layout for mobile devices
@@ -126,8 +186,23 @@ function adjustLayoutForMobile() {
     if (isMobile) {
         // Add mobile-specific adjustments
         document.body.classList.add('mobile-layout');
+
+        // Make tables more responsive on mobile
+        const tables = document.querySelectorAll('table');
+        tables.forEach(table => {
+            if (!table.classList.contains('mobile-responsive')) {
+                table.classList.add('mobile-responsive');
+                table.style.fontSize = '0.875rem';
+            }
+        });
     } else {
         document.body.classList.remove('mobile-layout');
+
+        // Reset table styles for desktop
+        const tables = document.querySelectorAll('table');
+        tables.forEach(table => {
+            table.style.fontSize = '';
+        });
     }
 }
 
@@ -361,11 +436,12 @@ window.ERVCalculator = {
         return {
             initialized: app !== null,
             calculating: app?.isCalculating || false,
-            version: '3.8.0-excel-exact',
-            htmlVersion: 'new-structure',
+            version: '3.8.0-excel-exact-no-demo',
+            htmlVersion: 'no-demo-structure',
             features: [
                 'Excel-exact formulas',
-                'Real-time calculations',
+                'No demo data',
+                'Real-time validation',
                 'City/altitude lookup',
                 'Psychrometric functions',
                 'Motor/drive selection',
@@ -393,4 +469,4 @@ if (typeof performance !== 'undefined' && performance.mark) {
     });
 }
 
-console.log('ERV Calculator v3.8.0 with Excel-exact formulas - New HTML Structure - Ready for initialization');
+console.log('ERV Calculator v3.8.0 with Excel-exact formulas - NO DEMO DATA - Ready for initialization');

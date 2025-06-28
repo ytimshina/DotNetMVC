@@ -1,5 +1,5 @@
 ﻿// js/modules/cityDropdownHandler.js
-import { getCityData, getAltitudeByCity } from '.moduels/cityAltitudeData.js';
+import { getCityData, getAltitudeByCity } from './cityAltitudeData.js';
 
 export class CityDropdownHandler {
     constructor() {
