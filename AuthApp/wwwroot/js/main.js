@@ -1,7 +1,7 @@
 ﻿// js/main.js
-// Main application file - NO DEMO DATA - User must input all values
+// Complete application with Excel-exact H6-H10 implementation and all dependencies
 
-import { MainControllerUpdated } from './controllers/mainControllerUpdated.js';
+import { MainControllerComplete } from './controllers/mainControllerComplete.js';
 
 // Global application instance
 let app = null;
@@ -9,7 +9,8 @@ let app = null;
 // Initialize application when DOM is loaded
 document.addEventListener('DOMContentLoaded', async () => {
     try {
-        console.log('Initializing ERV Calculator - NO DEMO DATA...');
+        console.log('=== ERV Calculator v3.8.0 - Complete Excel Implementation ===');
+        console.log('Initializing with exact H6-H10 formulas and all dependencies...');
 
         // Hide loading overlay
         const moduleLoading = document.getElementById('moduleLoading');
@@ -17,15 +18,25 @@ document.addEventListener('DOMContentLoaded', async () => {
             moduleLoading.style.display = 'none';
         }
 
-        // Initialize the main controller
-        app = new MainControllerUpdated();
+        // Initialize the complete main controller with Excel-exact implementation
+        app = new MainControllerComplete();
         await app.init();
 
         // Setup global event handlers
         setupGlobalEventHandlers();
 
-        // DO NOT perform initial calculation - wait for user input
-        console.log('ERV Calculator ready - waiting for user input');
+        console.log('=== Application Ready ===');
+        console.log('Features:');
+        console.log('✓ Excel-exact H6-H10 fan selection formulas');
+        console.log('✓ Complete FanFactors sheet FORECAST calculations');
+        console.log('✓ Exact VLOOKUP table implementation (M71:Q74)');
+        console.log('✓ BHP comparison logic (N77 vs P77)');
+        console.log('✓ Unit model dependency handling');
+        console.log('✓ Motor component data from Input sheet');
+        console.log('✓ All psychrometric functions');
+        console.log('✓ City/altitude lookup');
+        console.log('✓ Complete ERV performance calculations');
+
         showWelcomeMessage();
 
     } catch (error) {
@@ -34,7 +45,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 });
 
-// Show welcome message to guide user
+// Show enhanced welcome message
 function showWelcomeMessage() {
     const notification = document.createElement('div');
     notification.className = 'fixed top-4 right-4 bg-blue-100 border border-blue-400 text-blue-800 px-6 py-4 rounded-lg z-50 max-w-md shadow-lg';
@@ -44,8 +55,15 @@ function showWelcomeMessage() {
                 <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path>
             </svg>
             <div>
-                <h4 class="font-semibold mb-1">Welcome to ERV Calculator</h4>
-                <p class="text-sm">Please fill in all required fields. Calculations will begin automatically once all inputs are complete.</p>
+                <h4 class="font-semibold mb-1">ERV Calculator v3.8.0 Ready</h4>
+                <p class="text-sm mb-2">Complete Excel implementation loaded:</p>
+                <ul class="text-xs list-disc list-inside space-y-1">
+                    <li>Exact H6-H10 fan formulas</li>
+                    <li>FanFactors FORECAST calculations</li>
+                    <li>Complete dependency chains</li>
+                    <li>Motor component data</li>
+                </ul>
+                <p class="text-sm mt-2">Fill all required fields for automatic calculations.</p>
                 <button class="mt-2 text-xs text-blue-600 hover:text-blue-800 underline" onclick="this.closest('.fixed').remove()">
                     Got it
                 </button>
@@ -55,15 +73,15 @@ function showWelcomeMessage() {
 
     document.body.appendChild(notification);
 
-    // Auto-remove after 10 seconds
+    // Auto-remove after 12 seconds
     setTimeout(() => {
         if (notification.parentNode) {
             notification.parentNode.removeChild(notification);
         }
-    }, 10000);
+    }, 12000);
 }
 
-// Setup global event handlers
+// Setup global event handlers with enhanced functionality
 function setupGlobalEventHandlers() {
     // Handle form submission
     const ervForm = document.getElementById('ervForm');
@@ -72,6 +90,7 @@ function setupGlobalEventHandlers() {
             e.preventDefault();
 
             try {
+                console.log('Manual calculation triggered...');
                 await app.performCalculation();
                 showCalculationSuccess();
             } catch (error) {
@@ -100,12 +119,13 @@ function setupGlobalEventHandlers() {
         closeSuccessBtn.addEventListener('click', hideSuccessModal);
     }
 
-    // Handle keyboard shortcuts
+    // Enhanced keyboard shortcuts
     document.addEventListener('keydown', (e) => {
         // Ctrl+Enter or Cmd+Enter to calculate
         if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
             e.preventDefault();
             if (app && typeof app.performCalculation === 'function') {
+                console.log('Keyboard shortcut: Triggering calculation...');
                 app.performCalculation();
             }
         }
@@ -114,8 +134,15 @@ function setupGlobalEventHandlers() {
         if ((e.ctrlKey || e.metaKey) && e.key === 's') {
             e.preventDefault();
             if (app && typeof app.exportResults === 'function') {
+                console.log('Keyboard shortcut: Exporting results...');
                 app.exportResults();
             }
+        }
+
+        // Ctrl+Shift+D for debug info
+        if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key === 'D') {
+            e.preventDefault();
+            showDebugInfo();
         }
     });
 
@@ -124,11 +151,6 @@ function setupGlobalEventHandlers() {
         const successModal = document.getElementById('successModal');
         if (e.target === successModal) {
             hideSuccessModal();
-        }
-
-        const loadingOverlay = document.getElementById('loadingOverlay');
-        if (e.target === loadingOverlay) {
-            // Don't close loading overlay by clicking
         }
     });
 
@@ -140,12 +162,15 @@ function setupGlobalEventHandlers() {
     // Initial mobile layout adjustment
     adjustLayoutForMobile();
 
-    // Add input validation indicators
-    setupInputValidationIndicators();
+    // Enhanced input validation indicators
+    setupEnhancedInputValidation();
+
+    // Setup debug panel toggle
+    setupDebugPanel();
 }
 
-// Setup visual indicators for required fields
-function setupInputValidationIndicators() {
+// Enhanced input validation with real-time feedback
+function setupEnhancedInputValidation() {
     const requiredInputs = document.querySelectorAll('input[type="text"], input[type="number"], select');
 
     requiredInputs.forEach(input => {
@@ -154,9 +179,11 @@ function setupInputValidationIndicators() {
             if (input.value.trim() === '' && isRequiredField(input.id)) {
                 input.classList.add('border-red-300', 'bg-red-50');
                 input.classList.remove('border-gray-300');
+                showFieldTooltip(input, 'This field is required');
             } else {
                 input.classList.remove('border-red-300', 'bg-red-50');
                 input.classList.add('border-gray-300');
+                hideFieldTooltip(input);
             }
         });
 
@@ -164,12 +191,79 @@ function setupInputValidationIndicators() {
             if (input.value.trim() !== '') {
                 input.classList.remove('border-red-300', 'bg-red-50');
                 input.classList.add('border-gray-300');
+                hideFieldTooltip(input);
+
+                // Show validation checkmark for completed fields
+                if (isRequiredField(input.id)) {
+                    showValidationCheckmark(input);
+                }
             }
         });
+
+        // Special validation for numeric fields
+        if (input.type === 'number') {
+            input.addEventListener('input', () => {
+                const value = parseFloat(input.value);
+                if (input.value && isNaN(value)) {
+                    input.classList.add('border-orange-300', 'bg-orange-50');
+                    showFieldTooltip(input, 'Please enter a valid number');
+                } else {
+                    input.classList.remove('border-orange-300', 'bg-orange-50');
+                    hideFieldTooltip(input);
+                }
+            });
+        }
     });
 }
 
-// Check if field is required based on controller mapping
+// Show field tooltip for validation
+function showFieldTooltip(input, message) {
+    hideFieldTooltip(input); // Remove existing tooltip
+
+    const tooltip = document.createElement('div');
+    tooltip.className = 'absolute z-50 bg-gray-800 text-white text-xs px-2 py-1 rounded shadow-lg';
+    tooltip.textContent = message;
+    tooltip.id = `tooltip-${input.id}`;
+
+    // Position tooltip
+    const rect = input.getBoundingClientRect();
+    tooltip.style.left = `${rect.left}px`;
+    tooltip.style.top = `${rect.bottom + 5}px`;
+
+    document.body.appendChild(tooltip);
+
+    // Auto-hide after 3 seconds
+    setTimeout(() => hideFieldTooltip(input), 3000);
+}
+
+// Hide field tooltip
+function hideFieldTooltip(input) {
+    const tooltip = document.getElementById(`tooltip-${input.id}`);
+    if (tooltip) {
+        tooltip.remove();
+    }
+}
+
+// Show validation checkmark
+function showValidationCheckmark(input) {
+    // Remove existing checkmark
+    const existingCheck = input.parentNode.querySelector('.validation-check');
+    if (existingCheck) {
+        existingCheck.remove();
+    }
+
+    const checkmark = document.createElement('div');
+    checkmark.className = 'validation-check absolute right-2 top-1/2 transform -translate-y-1/2 text-green-500';
+    checkmark.innerHTML = '✓';
+
+    if (input.parentNode.style.position !== 'relative') {
+        input.parentNode.style.position = 'relative';
+    }
+
+    input.parentNode.appendChild(checkmark);
+}
+
+// Check if field is required
 function isRequiredField(fieldId) {
     const requiredFields = [
         'C7', 'C8', 'C9', 'C10', 'D7', 'D8', 'D9', 'D10',
@@ -179,12 +273,85 @@ function isRequiredField(fieldId) {
     return requiredFields.includes(fieldId);
 }
 
+// Setup debug panel
+function setupDebugPanel() {
+    // Create debug toggle button
+    const debugButton = document.createElement('button');
+    debugButton.id = 'debug-toggle';
+    debugButton.className = 'fixed bottom-4 right-4 bg-gray-600 text-white px-3 py-2 rounded text-xs hover:bg-gray-700 z-40';
+    debugButton.textContent = 'Debug';
+    debugButton.onclick = showDebugInfo;
+
+    document.body.appendChild(debugButton);
+}
+
+// Show debug information
+function showDebugInfo() {
+    if (!app) {
+        showError('Application not initialized');
+        return;
+    }
+
+    const state = app.getCurrentState();
+    const debugInfo = {
+        applicationStatus: {
+            initialized: app.isInitialized,
+            calculating: app.isCalculating,
+            version: '3.8.0-complete-excel-exact'
+        },
+        currentInputs: state.inputs,
+        lastResults: state.results,
+        fanCalculationDetails: state.results?.fanCalculationPath || 'No calculation performed yet'
+    };
+
+    console.log('=== DEBUG INFO ===', debugInfo);
+
+    // Show debug modal
+    const debugModal = document.createElement('div');
+    debugModal.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50';
+    debugModal.innerHTML = `
+        <div class="bg-white p-6 rounded-xl shadow-2xl max-w-4xl w-full mx-4 max-h-96 overflow-auto">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-xl font-bold text-gray-900">Debug Information</h3>
+                <button onclick="this.closest('.fixed').remove()" class="text-gray-500 hover:text-gray-700">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+            </div>
+            <div class="space-y-4">
+                <div>
+                    <h4 class="font-semibold text-gray-800">Application Status:</h4>
+                    <pre class="bg-gray-100 p-2 rounded text-xs overflow-auto">${JSON.stringify(debugInfo.applicationStatus, null, 2)}</pre>
+                </div>
+                <div>
+                    <h4 class="font-semibold text-gray-800">Fan Calculation Details:</h4>
+                    <pre class="bg-blue-50 p-2 rounded text-xs overflow-auto">${JSON.stringify(debugInfo.fanCalculationDetails, null, 2)}</pre>
+                </div>
+                <div>
+                    <h4 class="font-semibold text-gray-800">Current Inputs (Sample):</h4>
+                    <pre class="bg-green-50 p-2 rounded text-xs overflow-auto max-h-32">${JSON.stringify(Object.fromEntries(Object.entries(debugInfo.currentInputs).slice(0, 5)), null, 2)}...</pre>
+                </div>
+            </div>
+            <div class="mt-4 flex space-x-2">
+                <button onclick="console.log('Full debug info:', ${JSON.stringify(debugInfo).replace(/"/g, '\\"')})" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 text-sm">
+                    Log Full Info
+                </button>
+                <button onclick="navigator.clipboard.writeText(JSON.stringify(${JSON.stringify(debugInfo)}, null, 2))" class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 text-sm">
+                    Copy to Clipboard
+                </button>
+            </div>
+        </div>
+    `;
+
+    document.body.appendChild(debugModal);
+}
+
 // Adjust layout for mobile devices
 function adjustLayoutForMobile() {
     const isMobile = window.innerWidth < 768;
 
     if (isMobile) {
-        // Add mobile-specific adjustments
         document.body.classList.add('mobile-layout');
 
         // Make tables more responsive on mobile
@@ -195,6 +362,12 @@ function adjustLayoutForMobile() {
                 table.style.fontSize = '0.875rem';
             }
         });
+
+        // Adjust debug button for mobile
+        const debugButton = document.getElementById('debug-toggle');
+        if (debugButton) {
+            debugButton.style.bottom = '80px'; // Move above mobile keyboard
+        }
     } else {
         document.body.classList.remove('mobile-layout');
 
@@ -203,6 +376,12 @@ function adjustLayoutForMobile() {
         tables.forEach(table => {
             table.style.fontSize = '';
         });
+
+        // Reset debug button position
+        const debugButton = document.getElementById('debug-toggle');
+        if (debugButton) {
+            debugButton.style.bottom = '1rem';
+        }
     }
 }
 
@@ -224,6 +403,7 @@ function createFileInput() {
                 if (app && typeof app.loadCalculation === 'function') {
                     app.loadCalculation(data);
                     showSuccess('Calculation loaded successfully!');
+                    console.log('Loaded calculation data:', data);
                 } else {
                     showError('Application not ready. Please try again.');
                 }
@@ -245,9 +425,20 @@ function createFileInput() {
     fileInput.click();
 }
 
-// Show calculation success
+// Show calculation success with enhanced details
 function showCalculationSuccess() {
-    showSuccess('Calculation completed successfully!');
+    const state = app?.getCurrentState();
+    const fanType = state?.results?.fanType || 'Unknown';
+
+    showSuccess(`Calculation completed! Fan type selected: ${fanType}`);
+
+    // Log calculation summary
+    console.log('=== CALCULATION COMPLETED ===');
+    console.log('Fan type selected:', fanType);
+    console.log('Calculation method: Excel-exact H6-H10 implementation');
+    if (state?.results?.fanCalculationPath) {
+        console.log('Fan calculation path:', state.results.fanCalculationPath);
+    }
 }
 
 // Hide success modal
@@ -269,27 +460,31 @@ function showInitializationError(error) {
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L4.082 16.5c-.77.833.192 2.5 1.732 2.5z" />
                 </svg>
                 <h3 class="text-xl font-bold text-gray-900 mb-2">Initialization Failed</h3>
-                <p class="text-gray-600 mb-4">${error.message}</p>
-                <button class="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700" onclick="window.location.reload()">
-                    Reload Page
-                </button>
+                <p class="text-gray-600 mb-2">${error.message}</p>
+                <p class="text-sm text-gray-500 mb-4">Complete Excel implementation could not load.</p>
+                <div class="space-x-2">
+                    <button class="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700" onclick="window.location.reload()">
+                        Reload Page
+                    </button>
+                    <button class="px-4 py-2 bg-gray-200 text-gray-800 rounded hover:bg-gray-300" onclick="console.error('Initialization error:', '${error.message}')">
+                        Log Error
+                    </button>
+                </div>
             </div>
         </div>
     `;
     document.body.appendChild(errorDiv);
 }
 
-// Show success message
+// Enhanced notification system
 function showSuccess(message) {
     showNotification(message, 'success');
 }
 
-// Show error message
 function showError(message) {
     showNotification(message, 'error');
 }
 
-// Generic notification system
 function showNotification(message, type = 'info') {
     const notification = document.createElement('div');
     notification.className = `fixed top-4 right-4 px-6 py-4 rounded-lg shadow-lg z-50 max-w-md ${getNotificationClasses(type)}`;
@@ -311,11 +506,12 @@ function showNotification(message, type = 'info') {
     document.body.appendChild(notification);
 
     // Auto-remove notification
+    const duration = type === 'error' ? 8000 : 5000;
     setTimeout(() => {
         if (notification.parentNode) {
             notification.parentNode.removeChild(notification);
         }
-    }, type === 'error' ? 8000 : 5000);
+    }, duration);
 }
 
 // Get notification classes based on type
@@ -365,11 +561,12 @@ window.addEventListener('error', (event) => {
 // Export for potential external use
 export { app };
 
-// Global functions for backward compatibility and easy access
+// Enhanced global functions for ERV Calculator
 window.ERVCalculator = {
-    // Export calculation results
+    // Export calculation results with enhanced data
     exportResults: () => {
         if (app && typeof app.exportResults === 'function') {
+            console.log('Exporting results with Excel-exact calculations...');
             app.exportResults();
         } else {
             console.error('Application not initialized or export function not available');
@@ -379,6 +576,7 @@ window.ERVCalculator = {
 
     // Import data from file
     importFromFile: () => {
+        console.log('Opening import dialog...');
         createFileInput();
     },
 
@@ -392,7 +590,7 @@ window.ERVCalculator = {
         }
     },
 
-    // Get current calculation state
+    // Get current calculation state with enhanced information
     getCurrentState: () => {
         if (app && typeof app.getCurrentState === 'function') {
             return app.getCurrentState();
@@ -404,6 +602,7 @@ window.ERVCalculator = {
     // Manual calculation trigger
     calculate: () => {
         if (app && typeof app.performCalculation === 'function') {
+            console.log('Manual calculation triggered via global function...');
             app.performCalculation();
         } else {
             console.error('Application not initialized or calculate function not available');
@@ -411,14 +610,16 @@ window.ERVCalculator = {
         }
     },
 
-    // Validate current inputs
+    // Validate current inputs with enhanced feedback
     validate: () => {
         if (app && typeof app.validateInputs === 'function') {
             const inputs = app.collectInputs();
-            return app.validateInputs(inputs);
+            const validation = app.validateInputs(inputs);
+            console.log('Validation result:', validation);
+            return validation;
         }
         console.error('Application not initialized or validate function not available');
-        return false;
+        return { isValid: false, errors: ['Application not ready'] };
     },
 
     // Save calculation to server
@@ -431,42 +632,59 @@ window.ERVCalculator = {
         }
     },
 
-    // Get application status
+    // Get enhanced application status
     getStatus: () => {
         return {
             initialized: app !== null,
             calculating: app?.isCalculating || false,
-            version: '3.8.0-excel-exact-no-demo',
-            htmlVersion: 'no-demo-structure',
+            version: '3.8.0-complete-excel-exact',
+            implementation: 'Complete Excel H6-H10 formulas with all dependencies',
             features: [
-                'Excel-exact formulas',
-                'No demo data',
-                'Real-time validation',
-                'City/altitude lookup',
+                'Excel-exact H6-H10 fan selection formulas',
+                'FanFactors sheet FORECAST calculations',
+                'Complete VLOOKUP table (M71:Q74)',
+                'BHP comparison logic (N77 vs P77)',
+                'Unit model dependency handling',
+                'Motor component data from Input sheet',
                 'Psychrometric functions',
-                'Motor/drive selection',
-                'Flow validation',
-                'Export/import',
-                'Server-side saving',
-                'Results visualization'
-            ]
+                'City/altitude lookup',
+                'ERV performance calculations',
+                'Real-time validation',
+                'Enhanced error handling',
+                'Debug information',
+                'Mobile responsive design'
+            ],
+            fanCalculationDetails: app?.getCurrentState()?.results?.fanCalculationPath || 'No calculation performed'
         };
+    },
+
+    // Show debug information
+    showDebug: () => {
+        showDebugInfo();
+    },
+
+    // Get fan calculation details
+    getFanCalculationDetails: () => {
+        const state = app?.getCurrentState();
+        return state?.results?.fanCalculationPath || null;
     }
 };
 
 // Initialize performance monitoring
 if (typeof performance !== 'undefined' && performance.mark) {
-    performance.mark('erv-calculator-start');
+    performance.mark('erv-calculator-complete-start');
 
     window.addEventListener('load', () => {
-        performance.mark('erv-calculator-loaded');
-        performance.measure('erv-calculator-load-time', 'erv-calculator-start', 'erv-calculator-loaded');
+        performance.mark('erv-calculator-complete-loaded');
+        performance.measure('erv-calculator-complete-load-time', 'erv-calculator-complete-start', 'erv-calculator-complete-loaded');
 
-        const measurements = performance.getEntriesByName('erv-calculator-load-time');
+        const measurements = performance.getEntriesByName('erv-calculator-complete-load-time');
         if (measurements.length > 0) {
-            console.log(`ERV Calculator loaded in ${measurements[0].duration.toFixed(2)}ms`);
+            console.log(`ERV Calculator Complete loaded in ${measurements[0].duration.toFixed(2)}ms`);
         }
     });
 }
 
-console.log('ERV Calculator v3.8.0 with Excel-exact formulas - NO DEMO DATA - Ready for initialization');
+console.log('=== ERV Calculator v3.8.0 Complete Excel Implementation ===');
+console.log('Features: Excel-exact H6-H10 formulas, FanFactors FORECAST, complete dependencies');
+console.log('Ready for initialization...');
