@@ -1,5 +1,10 @@
 ﻿// js/main.js
+<<<<<<< HEAD
 // Complete application with Excel-exact H6-H10 implementation and all dependencies
+=======
+// Main application file updated to work with the new HTML structure
+// Properly connects JavaScript to the Welcome HTML
+>>>>>>> parent of 1877a4b (some working yayyy)
 
 import { MainControllerComplete } from './controllers/mainControllerComplete.js';
 
@@ -9,8 +14,12 @@ let app = null;
 // Initialize application when DOM is loaded
 document.addEventListener('DOMContentLoaded', async () => {
     try {
+<<<<<<< HEAD
         console.log('=== ERV Calculator v3.8.0 - Complete Excel Implementation ===');
         console.log('Initializing with exact H6-H10 formulas and all dependencies...');
+=======
+        console.log('Initializing ERV Calculator with new HTML structure...');
+>>>>>>> parent of 1877a4b (some working yayyy)
 
         // Hide loading overlay
         const moduleLoading = document.getElementById('moduleLoading');
@@ -25,6 +34,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         // Setup global event handlers
         setupGlobalEventHandlers();
 
+<<<<<<< HEAD
         console.log('=== Application Ready ===');
         console.log('Features:');
         console.log('✓ Excel-exact H6-H10 fan selection formulas');
@@ -38,6 +48,16 @@ document.addEventListener('DOMContentLoaded', async () => {
         console.log('✓ Complete ERV performance calculations');
 
         showWelcomeMessage();
+=======
+        // Perform initial calculation after a short delay
+        setTimeout(() => {
+            if (app && typeof app.performCalculation === 'function') {
+                app.performCalculation();
+            }
+        }, 1000);
+
+        console.log('ERV Calculator initialized successfully');
+>>>>>>> parent of 1877a4b (some working yayyy)
 
     } catch (error) {
         console.error('Failed to initialize application:', error);
@@ -45,6 +65,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 });
 
+<<<<<<< HEAD
 // Show enhanced welcome message
 function showWelcomeMessage() {
     const notification = document.createElement('div');
@@ -82,6 +103,9 @@ function showWelcomeMessage() {
 }
 
 // Setup global event handlers with enhanced functionality
+=======
+// Setup global event handlers
+>>>>>>> parent of 1877a4b (some working yayyy)
 function setupGlobalEventHandlers() {
     // Handle form submission
     const ervForm = document.getElementById('ervForm');
@@ -156,11 +180,13 @@ function setupGlobalEventHandlers() {
 
     // Handle window resize for responsive design
     window.addEventListener('resize', () => {
+        // Add any resize-specific logic here if needed
         adjustLayoutForMobile();
     });
 
     // Initial mobile layout adjustment
     adjustLayoutForMobile();
+<<<<<<< HEAD
 
     // Enhanced input validation indicators
     setupEnhancedInputValidation();
@@ -271,6 +297,8 @@ function isRequiredField(fieldId) {
         'C24', 'C25', 'C26', 'C27', 'C28', 'H13', 'H14'
     ];
     return requiredFields.includes(fieldId);
+=======
+>>>>>>> parent of 1877a4b (some working yayyy)
 }
 
 // Setup debug panel
@@ -353,6 +381,7 @@ function adjustLayoutForMobile() {
 
     if (isMobile) {
         document.body.classList.add('mobile-layout');
+<<<<<<< HEAD
 
         // Make tables more responsive on mobile
         const tables = document.querySelectorAll('table');
@@ -382,6 +411,10 @@ function adjustLayoutForMobile() {
         if (debugButton) {
             debugButton.style.bottom = '1rem';
         }
+=======
+    } else {
+        document.body.classList.remove('mobile-layout');
+>>>>>>> parent of 1877a4b (some working yayyy)
     }
 }
 
@@ -637,6 +670,7 @@ window.ERVCalculator = {
         return {
             initialized: app !== null,
             calculating: app?.isCalculating || false,
+<<<<<<< HEAD
             version: '3.8.0-complete-excel-exact',
             implementation: 'Complete Excel H6-H10 formulas with all dependencies',
             features: [
@@ -646,6 +680,14 @@ window.ERVCalculator = {
                 'BHP comparison logic (N77 vs P77)',
                 'Unit model dependency handling',
                 'Motor component data from Input sheet',
+=======
+            version: '3.8.0-excel-exact',
+            htmlVersion: 'new-structure',
+            features: [
+                'Excel-exact formulas',
+                'Real-time calculations',
+                'City/altitude lookup',
+>>>>>>> parent of 1877a4b (some working yayyy)
                 'Psychrometric functions',
                 'City/altitude lookup',
                 'ERV performance calculations',
@@ -685,6 +727,10 @@ if (typeof performance !== 'undefined' && performance.mark) {
     });
 }
 
+<<<<<<< HEAD
 console.log('=== ERV Calculator v3.8.0 Complete Excel Implementation ===');
 console.log('Features: Excel-exact H6-H10 formulas, FanFactors FORECAST, complete dependencies');
 console.log('Ready for initialization...');
+=======
+console.log('ERV Calculator v3.8.0 with Excel-exact formulas - New HTML Structure - Ready for initialization');
+>>>>>>> parent of 1877a4b (some working yayyy)
