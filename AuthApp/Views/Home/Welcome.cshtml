@@ -30,7 +30,7 @@
                 box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
             }
 
-        /* Form input class for consistent styling */
+        /* Updated form-input class for better scaling */
         .form-input {
             @@apply p-3 border border-gray-300 rounded-md text-right transition;
             line-height: 1.6;
@@ -44,12 +44,7 @@
                 box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
             }
 
-            /* Required field indicator */
-            .form-input.required:invalid {
-                @@apply border-red-300 bg-red-50;
-            }
-
-        /* Form select class for consistent styling */
+        /* Updated form-select class for better scaling */
         .form-select {
             @@apply p-3 border border-gray-300 rounded-md transition;
             background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
@@ -71,7 +66,7 @@
                 box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
             }
 
-        /* Table styling */
+        /* Remove fixed width for table cells */
         .table-header {
             @@apply font-semibold text-gray-700 bg-gray-50 p-4 text-left;
             vertical-align: middle;
@@ -82,11 +77,25 @@
             vertical-align: middle;
         }
 
+        /* Updated location table for flexible widths */
+        .location-table {
+            table-layout: auto;
+            width: 100%;
+        }
+
+            /* Remove fixed widths from table cells */
+            .location-table th,
+            .location-table td {
+                width: auto;
+            }
+
+        /* Updated table-data-input for better responsiveness */
         .table-data-input {
             padding: 0.5rem !important;
             min-width: 4rem;
         }
 
+            /* Ensure inputs inside table cells scale properly */
             .table-data-input .form-input,
             .table-data-input .form-select {
                 width: 100%;
@@ -110,6 +119,24 @@
             button:hover {
                 transform: translateY(-2px);
             }
+
+        .field-wrapper {
+            display: flex;
+            align-items: center;
+            width: 100%;
+        }
+
+        .field-unit {
+            @@apply text-xs text-gray-500 mb-1;
+            position: absolute;
+            top: 0;
+            left: 0.5rem;
+        }
+
+        .field-container {
+            position: relative;
+            width: 100%;
+        }
 
         td.align-middle {
             vertical-align: middle;
@@ -143,6 +170,17 @@
             border-radius: 6px 6px 0 0;
         }
 
+        /* Refined shadows for summary cards */
+        .summary-card {
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+            transition: all 0.3s ease;
+        }
+
+            .summary-card:hover {
+                box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+                transform: translateY(-2px);
+            }
+
         /* Loading spinner */
         .animate-spin {
             animation: spin 1s linear infinite;
@@ -158,7 +196,7 @@
             }
         }
 
-        /* Mobile responsive */
+        /* Media queries for better responsiveness */
         @@media (max-width: 640px) {
             .table-data-input {
                 padding: 0.25rem !important;
@@ -183,12 +221,6 @@
             justify-content: center;
             z-index: 9999;
         }
-
-        /* Required field indicator */
-        .required-indicator {
-            color: #ef4444;
-            font-weight: bold;
-        }
     </style>
 </head>
 <body class="bg-gradient-to-b from-gray-50 to-gray-100 min-h-screen">
@@ -203,18 +235,16 @@
         </div>
     </div>
 
-    <!-- Page container -->
+    <!-- Page container with a max width and auto margins -->
     <div class="p-6 w-full mx-auto">
 
         <!-- Page Header -->
         <div class="mb-10 text-center">
+
             <h1 class="text-4xl font-bold text-blue-900 mb-3">
-                ERV Wheel Calculator
+                <a asp-controller="History" asp-action="Index" class="text-blue-600 hover:text-blue-800 font-medium">View Calculation History</a>
             </h1>
             <p class="text-gray-600 text-lg max-w-2xl mx-auto">Enter system parameters to calculate energy recovery ventilation performance</p>
-            <div class="mt-4">
-                <a asp-controller="History" asp-action="Index" class="text-blue-600 hover:text-blue-800 font-medium underline">View Calculation History</a>
-            </div>
         </div>
 
         <!-- Main Form -->
@@ -230,7 +260,7 @@
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-blue-600" viewBox="0 0 20 20" fill="currentColor">
                                 <path fill-rule="evenodd" d="M11.49 3.17c-.38-1.56-2.6-1.56-2.98 0a1.532 1.532 0 01-2.286.948c-1.372-.836-2.942.734-2.106 2.106.54.886.061 2.042-.947 2.287-1.561.379-1.561 2.6 0 2.978a1.532 1.532 0 01.947 2.287c-.836 1.372.734 2.942 2.106 2.106a1.532 1.532 0 012.287.947c.379 1.561 2.6 1.561 2.978 0a1.533 1.533 0 012.287-.947c1.372.836 2.942-.734 2.106-2.106a1.533 1.533 0 01.947-2.287c1.561-.379 1.561-2.6 0-2.978a1.532 1.532 0 01-.947-2.287c.836-1.372-.734-2.942-2.106-2.106a1.532 1.532 0 01-2.287-.947zM10 13a3 3 0 100-6 3 3 0 000 6z" clip-rule="evenodd" />
                             </svg>
-                            ERV Wheel Inputs <span class="required-indicator">*</span>
+                            ERV Wheel Inputs
                         </h2>
                         <table class="w-full border-collapse mb-4 border rounded-lg overflow-hidden table-fixed">
                             <thead>
@@ -242,39 +272,39 @@
                             </thead>
                             <tbody class="w-full">
                                 <tr class="hover:bg-gray-50">
-                                    <td class="table-data font-medium align-middle">Outdoor Air Temperature (O.A. dry bulb) <span class="required-indicator">*</span></td>
+                                    <td class="table-data font-medium align-middle">Outdoor Air Temperature (O.A. dry bulb)</td>
                                     <td class="table-data align-middle table-data-input">
-                                        <input class="form-input required" type="number" name="OADryBulb" id="C7" placeholder="Enter temp (°F)" required />
+                                        <input class="form-input" type="Number" name="OADryBulb" id="C7" placeholder="0.0" />
                                     </td>
                                     <td class="table-data align-middle table-data-input">
-                                        <input class="form-input required" type="number" name="OADryBulb" id="D7" placeholder="Enter temp (°F)" required />
-                                    </td>
-                                </tr>
-                                <tr class="hover:bg-gray-50">
-                                    <td class="table-data font-medium align-middle">Outdoor Air Temperature (O.A. wet bulb) <span class="required-indicator">*</span></td>
-                                    <td class="table-data align-middle table-data-input">
-                                        <input class="form-input required" type="number" name="OAWetBulb" id="C8" placeholder="Enter temp (°F)" required />
-                                    </td>
-                                    <td class="table-data align-middle table-data-input">
-                                        <input class="form-input required" type="number" name="OAWetBulb" id="D8" placeholder="Enter temp (°F)" required />
+                                        <input class="form-input" type="Number" name="OADryBulb" id="D7" placeholder="0.0" />
                                     </td>
                                 </tr>
                                 <tr class="hover:bg-gray-50">
-                                    <td class="table-data font-medium align-middle">Return Air Temperature (R.A. dry bulb) <span class="required-indicator">*</span></td>
+                                    <td class="table-data font-medium align-middle">Outdoor Air Temperature (O.A. wet bulb)</td>
                                     <td class="table-data align-middle table-data-input">
-                                        <input class="form-input required" type="number" name="RADryBulb" id="C9" placeholder="Enter temp (°F)" required />
+                                        <input class="form-input" type="text" name="OAWetBulb" id="C8" placeholder="0.0" />
                                     </td>
                                     <td class="table-data align-middle table-data-input">
-                                        <input class="form-input required" type="number" name="RADryBulb" id="D9" placeholder="Enter temp (°F)" required />
+                                        <input class="form-input" type="text" name="OAWetBulb" id="D8" placeholder="0.0" />
                                     </td>
                                 </tr>
                                 <tr class="hover:bg-gray-50">
-                                    <td class="table-data font-medium align-middle">Return Air Temperature (R.A. wet bulb) <span class="required-indicator">*</span></td>
+                                    <td class="table-data font-medium align-middle">Return Air Temperature (R.A. dry bulb)</td>
                                     <td class="table-data align-middle table-data-input">
-                                        <input class="form-input required" type="number" name="RAWetBulb" id="C10" placeholder="Enter temp (°F)" required />
+                                        <input class="form-input" type="text" name="RADryBulb" id="C9" placeholder="0.0" />
                                     </td>
                                     <td class="table-data align-middle table-data-input">
-                                        <input class="form-input required" type="number" name="RAWetBulb" id="D10" placeholder="Enter temp (°F)" required />
+                                        <input class="form-input" type="text" name="RADryBulb" id="D9" placeholder="0.0" />
+                                    </td>
+                                </tr>
+                                <tr class="hover:bg-gray-50">
+                                    <td class="table-data font-medium align-middle">Return Air Temperature (R.A. wet bulb)</td>
+                                    <td class="table-data align-middle table-data-input">
+                                        <input class="form-input" type="text" name="RAWetBulb" id="C10" placeholder="0.0" />
+                                    </td>
+                                    <td class="table-data align-middle table-data-input">
+                                        <input class="form-input" type="text" name="RAWetBulb" id="D10" placeholder="0.0" />
                                     </td>
                                 </tr>
                                 <tr class="bg-gray-50">
@@ -293,9 +323,9 @@
                                     <td class="table-data font-medium text-center bg-blue-50 align-middle">Altitude (ft.)</td>
                                 </tr>
                                 <tr class="hover:bg-gray-50">
-                                    <td class="table-data font-medium align-middle">Nearest Location (elevation) <span class="required-indicator">*</span></td>
+                                    <td class="table-data font-medium align-middle">Nearest Location (elevation)</td>
                                     <td class="table-data align-middle table-data-input">
-                                        <select class="form-select required" name="nearestLocation" id="C14" required>
+                                        <select class="form-select" name="nearestLocation" id="C14">
                                             <option value="">Select City</option>
                                             <!-- Options will be populated by JavaScript -->
                                         </select>
@@ -303,23 +333,23 @@
                                     <td class="table-data text-center font-mono bg-gray-50 align-middle" id="D14">--</td>
                                 </tr>
                                 <tr class="hover:bg-gray-50">
-                                    <td class="table-data font-medium align-middle">Supply Air CFM <span class="required-indicator">*</span></td>
+                                    <td class="table-data font-medium align-middle">Supply Air CFM</td>
                                     <td class="table-data align-middle table-data-input">
-                                        <input class="form-input required" type="number" name="supplyAirCFM" id="C15" placeholder="Enter CFM" required />
+                                        <input class="form-input" type="text" name="supplyAirCFM" id="C15" placeholder="0" />
                                     </td>
                                     <td class="table-data"></td>
                                 </tr>
                                 <tr class="hover:bg-gray-50">
-                                    <td class="table-data font-medium align-middle">Outdoor Air CFM <span class="required-indicator">*</span></td>
+                                    <td class="table-data font-medium align-middle">Outdoor Air CFM</td>
                                     <td class="table-data align-middle table-data-input">
-                                        <input class="form-input required" type="number" name="F2_outdoorAirCFM" id="C16" placeholder="Enter CFM" required />
+                                        <input class="form-input" type="text" name="F2_outdoorAirCFM" id="C16" placeholder="0" />
                                     </td>
                                     <td class="table-data"></td>
                                 </tr>
                                 <tr class="hover:bg-gray-50">
-                                    <td class="table-data font-medium align-middle">Exhaust Return Air CFM <span class="required-indicator">*</span></td>
+                                    <td class="table-data font-medium align-middle">Exhaust Return Air CFM</td>
                                     <td class="table-data align-middle table-data-input">
-                                        <input class="form-input required" type="number" name="exhaustReturnAirCFM" id="C17" placeholder="Enter CFM" required />
+                                        <input class="form-input" type="text" name="exhaustReturnAirCFM" id="C17" placeholder="0" />
                                     </td>
                                     <td class="table-data"></td>
                                 </tr>
@@ -338,59 +368,73 @@
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-blue-600" viewBox="0 0 20 20" fill="currentColor">
                                 <path fill-rule="evenodd" d="M3 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd" />
                             </svg>
-                            Unit Selections <span class="required-indicator">*</span>
+                            Unit Selections
                         </h2>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6 w-full">
                             <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-2" for="C21">Unit Model <span class="required-indicator">*</span></label>
-                                <select id="C21" class="form-select required" name="unitModel" required>
-                                    <option value="">Select Unit Model</option>
-                                    <!-- Options will be populated by JavaScript -->
+                                <label class="block text-sm font-medium text-gray-700 mb-2" for="C21">ERV Wheel Type</label>
+                                <select id="C21" class="form-select" name="ervWheelType">
+                                    <option value="">Select Type</option>
+                                    <option value="1">Aluminum</option>
+                                    <option value="2">MS Coated</option>
+                                    <option value="3">Polymer</option>
                                 </select>
                             </div>
                             <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-2" for="C22">ERV Wheel Type <span class="required-indicator">*</span></label>
-                                <select id="C22" class="form-select required" name="ervWheelType" required>
-                                    <option value="">Select Wheel Type</option>
-                                    <!-- Options will be populated by JavaScript -->
+                                <label class="block text-sm font-medium text-gray-700 mb-2" for="C22">ERV Model Selection</label>
+                                <select id="C22" class="form-select" name="ervModelSelection">
+                                    <option value="">Select Model</option>
+                                    <option value="1">ERC</option>
+                                    <option value="2">HRV</option>
+                                    <option value="3">ERV</option>
                                 </select>
                             </div>
                             <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-2" for="C23">ERV Size Selection <span class="required-indicator">*</span></label>
-                                <select id="C23" class="form-select required" name="ervSizeSelection" required>
-                                    <option value="">Select ERV Size</option>
-                                    <!-- Options will be populated by JavaScript -->
+                                <label class="block text-sm font-medium text-gray-700 mb-2" for="C23">ERV Size Selection</label>
+                                <select id="C23" class="form-select" name="ervSizeSelection">
+                                    <option value="">Select Size</option>
+                                    <option value="1">Small (10-20)</option>
+                                    <option value="2">Medium (30-50)</option>
+                                    <option value="3">Large (60-100)</option>
                                 </select>
                             </div>
                             <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-2" for="C24">Filter Type <span class="required-indicator">*</span></label>
-                                <select id="C24" class="form-select required" name="filterType" required>
+                                <label class="block text-sm font-medium text-gray-700 mb-2" for="C24">Filter Type</label>
+                                <select id="C24" class="form-select" name="filterType">
                                     <option value="">Select Filter</option>
-                                    <!-- Options will be populated by JavaScript -->
+                                    <option value="1">MERV 8</option>
+                                    <option value="2">MERV 13</option>
+                                    <option value="3">HEPA</option>
                                 </select>
                             </div>
                             <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-2" for="C25">Purge Type <span class="required-indicator">*</span></label>
-                                <select id="C25" class="form-select required" name="purgeType" required>
+                                <label class="block text-sm font-medium text-gray-700 mb-2" for="C25">Purge Type</label>
+                                <select id="C25" class="form-select" name="purgeType">
                                     <option value="">Select Purge</option>
-                                    <!-- Options will be populated by JavaScript -->
+                                    <option value="0">0°</option>
+                                    <option value="5">5°</option>
+                                    <option value="10">10°</option>
                                 </select>
                             </div>
                             <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-2" for="C28">Unit Voltage <span class="required-indicator">*</span></label>
-                                <select id="C28" class="form-select required" name="unitVoltage" required>
+                                <label class="block text-sm font-medium text-gray-700 mb-2" for="C28">Unit Voltage</label>
+                                <select id="C28" class="form-select" name="unitVoltage">
                                     <option value="">Select Voltage</option>
-                                    <!-- Options will be populated by JavaScript -->
+                                    <option value="110">110V</option>
+                                    <option value="220">220V</option>
+                                    <option value="440">440V</option>
                                 </select>
                             </div>
                         </div>
 
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-6 w-full">
                             <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-2" for="C26">Unit Tons <span class="required-indicator">*</span></label>
-                                <select id="C26" class="form-select required" name="unitTons" required>
+                                <label class="block text-sm font-medium text-gray-700 mb-2" for="C26">Trane Original Unit Tons</label>
+                                <select id="C26" class="form-select" name="traneOriginalTons">
                                     <option value="">Select Tons</option>
-                                    <!-- Options will be populated by JavaScript -->
+                                    <option value="3">3 Tons</option>
+                                    <option value="5">5 Tons</option>
+                                    <option value="10">10 Tons</option>
                                 </select>
                             </div>
                             <div>
@@ -401,10 +445,12 @@
 
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6 w-full">
                             <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-2" for="C27">Trane Stated EER <span class="required-indicator">*</span></label>
-                                <select id="C27" class="form-select required" name="traneStatedEER" required>
+                                <label class="block text-sm font-medium text-gray-700 mb-2" for="C27">Trane Stated EER</label>
+                                <select id="C27" class="form-select" name="traneStatedEER">
                                     <option value="">Select EER</option>
-                                    <!-- Options will be populated by JavaScript -->
+                                    <option value="10">10.0</option>
+                                    <option value="11">11.0</option>
+                                    <option value="12">12.0</option>
                                 </select>
                             </div>
                             <div>
@@ -424,8 +470,8 @@
                         </h2>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6 w-full">
                             <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-2" for="H26">Pre-Heater Size (optional):</label>
-                                <input class="form-input" type="number" name="preHeaterSize" id="H26" placeholder="Enter size" />
+                                <label class="block text-sm font-medium text-gray-700 mb-2" for="H26">Pre-Heater Size:</label>
+                                <input class="form-input" type="number" name="preHeaterSize" id="H26" placeholder="10" />
                             </div>
                             <div>
                                 <label class="block text-sm font-medium text-gray-700 mb-2">Post Preheat Air Temp</label>
@@ -444,9 +490,9 @@
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-blue-600" viewBox="0 0 20 20" fill="currentColor">
                                 <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd" />
                             </svg>
-                            Location Information <span class="required-indicator">*</span>
+                            Location Information
                         </h2>
-                        <table class="w-full border-collapse mb-2 border rounded-lg overflow-hidden">
+                        <table class="w-full border-collapse mb-2 border rounded-lg overflow-hidden location-table">
                             <thead>
                                 <tr>
                                     <th class="table-header text-left rounded-tl-lg bg-gray-100"></th>
@@ -456,15 +502,15 @@
                             </thead>
                             <tbody>
                                 <tr class="hover:bg-gray-50">
-                                    <td class="table-data font-medium align-middle">Nearest Location <span class="required-indicator">*</span></td>
+                                    <td class="table-data font-medium align-middle">Nearest Location (elevation)</td>
                                     <td class="table-data align-middle table-data-input">
-                                        <select class="form-select w-full required" name="R1_nearestLocation" id="AE5" required>
+                                        <select class="form-select w-full" name="R1_nearestLocation" id="AE5">
                                             <option value="">Select City</option>
                                             <!-- Options will be populated by JavaScript -->
                                         </select>
                                     </td>
                                     <td class="table-data align-middle table-data-input">
-                                        <input class="form-input w-full" type="text" name="R2_altitude" id="AF5" placeholder="Auto-filled" readonly />
+                                        <input class="form-input w-full" type="text" name="R2_altitude" id="AF5" placeholder="0" readonly />
                                     </td>
                                 </tr>
                             </tbody>
@@ -477,7 +523,7 @@
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-blue-600" viewBox="0 0 20 20" fill="currentColor">
                                 <path fill-rule="evenodd" d="M11.49 3.17c-.38-1.56-2.6-1.56-2.98 0a1.532 1.532 0 01-2.286.948c-1.372-.836-2.942.734-2.106 2.106.54.886.061 2.042-.947 2.287-1.561.379-1.561 2.6 0 2.978a1.532 1.532 0 01.947 2.287c-.836 1.372.734 2.942 2.106 2.106a1.532 1.532 0 012.287.947c.379 1.561 2.6 1.561 2.978 0a1.533 1.533 0 012.287-.947c1.372.836 2.942-.734 2.106-2.106a1.533 1.533 0 01.947-2.287c1.561-.379 1.561-2.6 0-2.978a1.532 1.532 0 01-.947-2.287c.836-1.372-.734-2.942-2.106-2.106a1.532 1.532 0 01-2.287-.947zM10 13a3 3 0 100-6 3 3 0 000 6z" clip-rule="evenodd" />
                             </svg>
-                            Fan Data (calculated)
+                            Fan Data
                         </h2>
                         <table class="w-full border-collapse mb-2 border rounded-lg overflow-hidden">
                             <tbody>
@@ -511,21 +557,23 @@
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-blue-600" viewBox="0 0 20 20" fill="currentColor">
                                 <path fill-rule="evenodd" d="M12.316 3.051a1 1 0 01.633 1.265l-4 12a1 1 0 11-1.898-.632l4-12a1 1 0 011.265-.633zM5.707 6.293a1 1 0 010 1.414L3.414 10l2.293 2.293a1 1 0 11-1.414 1.414l-3-3a1 1 0 010-1.414l3-3a1 1 0 011.414 0zm8.586 0a1 1 0 011.414 0l3 3a1 1 0 010 1.414l-3 3a1 1 0 11-1.414-1.414L16.586 10l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd" />
                             </svg>
-                            Motor, Belt and Pullies <span class="required-indicator">*</span>
+                            Motor, Belt and Pullies
                         </h2>
                         <div class="grid grid-cols-1 gap-6 mb-6">
                             <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-2" for="H13">Motor with grounding ring? <span class="required-indicator">*</span></label>
-                                <select name="motorGroundingRing" id="H13" class="form-select required" required>
+                                <label class="block text-sm font-medium text-gray-700 mb-2" for="H13">Motor with grounding ring?</label>
+                                <select name="motorGroundingRing" id="H13" class="form-select">
                                     <option value="">Select Option</option>
-                                    <!-- Options will be populated by JavaScript -->
+                                    <option value="0">No</option>
+                                    <option value="1">Yes</option>
                                 </select>
                             </div>
                             <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-2" for="H14">VAV system with VDF? <span class="required-indicator">*</span></label>
-                                <select name="vavSystemVdf" id="H14" class="form-select required" required>
+                                <label class="block text-sm font-medium text-gray-700 mb-2" for="H14">VAV system with VDF?</label>
+                                <select name="vavSystemVdf" id="H14" class="form-select">
                                     <option value="">Select Option</option>
-                                    <!-- Options will be populated by JavaScript -->
+                                    <option value="0">No</option>
+                                    <option value="1">Yes</option>
                                 </select>
                             </div>
                         </div>
@@ -573,9 +621,6 @@
                                 class="px-8 py-4 bg-blue-600 text-white rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-500 focus:ring-opacity-50 shadow-lg w-full font-medium text-lg transition-all duration-300">
                             Calculate Results
                         </button>
-                        <p class="text-sm text-gray-600 mt-2">
-                            <span class="required-indicator">*</span> Required fields - calculations will start automatically when all fields are completed
-                        </p>
                     </div>
 
                     <!-- Utility Buttons -->
@@ -614,7 +659,7 @@
                         <thead>
                             <tr class="bg-gray-50">
                                 <th class="border border-gray-300 p-4 bg-white text-left font-semibold text-gray-800 rounded-tl-lg">
-                                    ERV Model
+                                    Aluminum ERC Series (Airxchange)
                                 </th>
                                 <th class="border border-gray-300 p-4 bg-white text-center font-semibold text-gray-800">
                                     Unit<br>Effectiveness
